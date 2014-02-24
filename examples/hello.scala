@@ -2,7 +2,16 @@ package hello
 
 object world extends App {
   println("hello dotty!")
+
+  trait A { type T <: A }
+  trait B { type T <: B }
+
+  def f(cond: Boolean) = if (cond) ((a: A) => 10) else ((b: B) => 11)
   
+  trait AB extends A with B
+  
+  def g(cond: Boolean) = f(cond)(new AB())
+
   type Cool = Int | String
   
   def foo(c: Cool): Unit = c match {
@@ -87,7 +96,7 @@ object world extends App {
     val b: B
     
     trait A {
-      type M <: b.a.M
+      type M <: b.a.M // error: cyclic reference involving type M
       val b: B
     }
     trait B {
