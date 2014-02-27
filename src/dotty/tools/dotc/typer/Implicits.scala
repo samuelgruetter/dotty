@@ -56,9 +56,9 @@ object Implicits {
               case mt: MethodType =>
                 mt.isImplicit ||
                 mt.paramTypes.length != 1 ||
-                !(argType <:< ((new WildApprox) apply mt.paramTypes.head))(ctx.fresh.withExploreTyperState)
+                !(argType <:< wildApprox(mt.paramTypes.head)(ctx.fresh.withExploreTyperState))
               case rtp =>
-                discardForView((new WildApprox) apply rtp, argType)
+                discardForView(wildApprox(rtp), argType)
             }
           case tpw: TermRef =>
             false // can't discard overloaded refs
@@ -76,7 +76,7 @@ object Implicits {
 
         def discard = pt match {
           case pt: ViewProto => discardForView(ref.widen, pt.argType)
-          case _: ValueType => !defn.isFunctionType(pt) && discardForValueType(ref.widen)
+          case _: ValueTypeOrProto => !defn.isFunctionType(pt) && discardForValueType(ref.widen)
           case _ => false
         }
 
@@ -269,7 +269,8 @@ trait ImplicitRunInfo { self: RunInfo =>
      *  abstract types are eliminated.
      */
     object liftToClasses extends TypeMap {
-      private implicit val ctx: Context = liftingCtx
+      override implicit protected val ctx: Context = liftingCtx
+      override def stopAtStatic = true
       def apply(tp: Type) = tp match {
         case tp: TypeRef if tp.symbol.isAbstractOrAliasType =>
           val pre = tp.prefix
@@ -346,6 +347,8 @@ trait ImplicitRunInfo { self: RunInfo =>
   val useCount = new mutable.HashMap[TermRef, Int] {
     override def default(key: TermRef) = 0
   }
+
+  def clear() = implicitScopeCache.clear()
 }
 
 /** The implicit resolution part of type checking */
@@ -439,7 +442,7 @@ trait Implicits { self: Typer =>
     }
 
     /** The expected type where parameters and uninstantiated typevars are replaced by wildcard types */
-    val wildProto = implicitProto(pt, new WildApprox)
+    val wildProto = implicitProto(pt, wildApprox(_))
 
     /** Search failures; overridden in ExplainedImplicitSearch */
     protected def nonMatchingImplicit(ref: TermRef): SearchFailure = NoImplicitMatches
@@ -626,7 +629,8 @@ class SearchHistory(val searchDepth: Int, val seen: Map[ClassSymbol, Int]) {
 
 /** A set of term references where equality is =:= */
 class TermRefSet(implicit ctx: Context) extends mutable.Traversable[TermRef] {
-  private val elems = new mutable.LinkedHashMap[TermSymbol, List[Type]] // todo: change to j.u.LinkedHashMap?
+  import collection.JavaConverters._
+  private val elems = (new java.util.LinkedHashMap[TermSymbol, List[Type]]).asScala
 
   def += (ref: TermRef): Unit = {
     val pre = ref.prefix

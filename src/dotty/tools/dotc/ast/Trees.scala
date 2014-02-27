@@ -11,7 +11,7 @@ import collection.immutable.IndexedSeq
 import collection.mutable.ListBuffer
 import parsing.Tokens.Token
 import printing.Printer
-import util.Stats
+import util.{Stats, Attachment, DotClass}
 import annotation.unchecked.uncheckedVariance
 
 object Trees {
@@ -196,7 +196,11 @@ object Trees {
    *   - Type checking an untyped tree should remove all embedded `TypedSplice`
    *     nodes.
    */
-  abstract class Tree[-T >: Untyped] extends Positioned with Product with printing.Showable with Cloneable {
+  abstract class Tree[-T >: Untyped] extends Positioned
+                                        with Product
+                                        with Attachment.Container
+                                        with printing.Showable
+                                        with Cloneable {
 
     if (Stats.enabled) ntrees += 1
 
@@ -292,6 +296,18 @@ object Trees {
     /** if this tree is the empty tree, the alternative, else this tree */
     def orElse[U >: Untyped <: T](that: => Tree[U]): Tree[U] =
       if (this eq genericEmptyTree) that else this
+
+    /** The number of nodes in this tree */
+    def treeSize: Int = {
+      var s = 1
+      def addSize(elem: Any): Unit = elem match {
+        case t: Tree[_] => s += t.treeSize
+        case ts: List[_] => ts foreach addSize
+        case _ =>
+      }
+      productIterator foreach addSize
+      s
+    }
 
     override def toText(printer: Printer) = printer.toText(this)
 

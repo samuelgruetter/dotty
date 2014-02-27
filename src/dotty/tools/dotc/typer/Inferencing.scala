@@ -53,7 +53,7 @@ object Inferencing {
           case _ =>
             true
         }
-      case pt: ValueType if !(pt isRef defn.UnitClass) =>
+      case _: ValueTypeOrProto if !(pt isRef defn.UnitClass) =>
         mt match {
           case mt: MethodType =>
             mt.isDependent || isCompatible(normalize(mt, pt), pt)
@@ -73,48 +73,45 @@ object Inferencing {
    *
    *       [ ].name: proto
    */
-  abstract class SelectionProto(val name: Name, proto: Type, val compat: Compatibility)
-  extends RefinedType(WildcardType, name) with ProtoType {
-    override val refinedInfo = proto
-    override def isMatchedBy(tp1: Type)(implicit ctx: Context) =
+  abstract case class SelectionProto(val name: Name, val memberProto: Type, val compat: Compatibility)
+  extends CachedProxyType with ProtoType with ValueTypeOrProto {
+
+    override def isMatchedBy(tp1: Type)(implicit ctx: Context) = {
       name == nme.WILDCARD || {
         val mbr = tp1.member(name)
-        mbr.exists && mbr.hasAltWith(m => compat.normalizedCompatible(m.info, proto))
-      }
-    override def isProto = true
-    override def toString = "Proto" + super.toString
-    override def derivedRefinedType(parent: Type, refinedName: Name, refinedInfo: Type)(implicit ctx: Context): RefinedType = {
-      val tp1 @ RefinedType(parent1, refinedName1) = super.derivedRefinedType(parent, refinedName, refinedInfo)
-      if (tp1 eq this) this
-      else {
-        assert(parent == WildcardType)
-        SelectionProto(refinedName1, tp1.refinedInfo, compat)
+        def qualifies(m: SingleDenotation) = compat.normalizedCompatible(m.info, memberProto)
+        mbr match { // hasAltWith inlined for performance
+          case mbr: SingleDenotation => mbr.exists && qualifies(mbr)
+          case _ => mbr hasAltWith qualifies
+        }
       }
     }
-    def derivedSelectionProto(name: Name, proto: Type, compat: Compatibility)(implicit ctx: Context) =
-      if ((name eq this.name) && (proto eq this.proto) && (compat eq this.compat)) this
-      else SelectionProto(name, proto, compat)
+
+    def underlying(implicit ctx: Context) = WildcardType
+
+    def derivedSelectionProto(name: Name, memberProto: Type, compat: Compatibility)(implicit ctx: Context) =
+      if ((name eq this.name) && (memberProto eq this.memberProto) && (compat eq this.compat)) this
+      else SelectionProto(name, memberProto, compat)
 
     override def equals(that: Any): Boolean = that match {
       case that: SelectionProto =>
-        (name eq that.name) && (refinedInfo == that.refinedInfo) && (compat eq that.compat)
+        (name eq that.name) && (memberProto == that.memberProto) && (compat eq that.compat)
       case _ =>
         false
     }
 
-    def map(tm: TypeMap)(implicit ctx: Context) = derivedSelectionProto(name, tm(proto), compat)
-    def fold[T](x: T, ta: TypeAccumulator[T])(implicit ctx: Context) = ta(x, this)
+    def map(tm: TypeMap)(implicit ctx: Context) = derivedSelectionProto(name, tm(memberProto), compat)
+    def fold[T](x: T, ta: TypeAccumulator[T])(implicit ctx: Context) = ta(x, memberProto)
 
-    override def computeHash = addDelta(doHash(name, proto), if (compat == NoViewsAllowed) 1 else 0)
+    override def computeHash = addDelta(doHash(name, memberProto), if (compat == NoViewsAllowed) 1 else 0)
   }
 
-  class CachedSelectionProto(name: Name, proto: Type, compat: Compatibility) extends SelectionProto(name, proto, compat)
+  class CachedSelectionProto(name: Name, memberProto: Type, compat: Compatibility) extends SelectionProto(name, memberProto, compat)
 
   object SelectionProto {
-    def apply(name: Name, proto: Type, compat: Compatibility)(implicit ctx: Context): SelectionProto = {
-      val rt = new CachedSelectionProto(name, proto, compat)
-      if (compat eq NoViewsAllowed) ctx.uniqueRefinedTypes.enterIfNew(rt).asInstanceOf[SelectionProto]
-      else rt
+    def apply(name: Name, memberProto: Type, compat: Compatibility)(implicit ctx: Context): SelectionProto = {
+      val selproto = new CachedSelectionProto(name, memberProto, compat)
+      if (compat eq NoViewsAllowed) unique(selproto) else selproto
     }
   }
 
@@ -204,10 +201,6 @@ object Inferencing {
    */
   abstract case class ViewProto(argType: Type, override val resultType: Type)(implicit ctx: Context)
   extends CachedGroundType with ApplyingProto {
- //   def lookingForInfo = resultType match {
- //     case rt: SelectionProto => rt.name.toString == "info"
- //     case _ => false
- //   }
     def isMatchedBy(tp: Type)(implicit ctx: Context): Boolean = /*ctx.conditionalTraceIndented(lookingForInfo, i"?.info isMatchedBy $tp ${tp.getClass}")*/ {
   	  ctx.typer.isApplicable(tp, argType :: Nil, resultType)
     }
@@ -256,7 +249,8 @@ object Inferencing {
     def map(tm: TypeMap)(implicit ctx: Context): PolyProto =
       derivedPolyProto(targs mapConserve tm, tm(resultType))
 
-    def fold[T](x: T, ta: TypeAccumulator[T])(implicit ctx: Context): T = ta((x /: targs)(ta), resultType)
+    def fold[T](x: T, ta: TypeAccumulator[T])(implicit ctx: Context): T =
+      ta(ta.foldOver(x, targs), resultType)
   }
 
   /** A prototype for expressions [] that are known to be functions:
@@ -524,44 +518,54 @@ object Inferencing {
   /** Approximate occurrences of parameter types and uninstantiated typevars
    *  by wildcard types.
    */
-  class WildApprox(implicit ctx: Context) extends TypeMap {
-    override def apply(tp: Type) = tp match {
-      case PolyParam(pt, pnum) =>
-        WildcardType(apply(pt.paramBounds(pnum)).bounds)
-      case MethodParam(mt, pnum) =>
-        WildcardType(TypeBounds.upper(apply(mt.paramTypes(pnum))))
-      case tp: TypeVar =>
-        val inst = tp.instanceOpt
-        if (inst.exists) apply(inst)
-        else ctx.typerState.constraint.at(tp.origin) match {
-          case bounds: TypeBounds => apply(WildcardType(bounds))
-          case NoType => WildcardType
-        }
-      case tp: AndType =>
-        val tp1a = apply(tp.tp1)
-        val tp2a = apply(tp.tp2)
-        def wildBounds(tp: Type) =
-          if (tp.isInstanceOf[WildcardType]) tp.bounds else TypeBounds.upper(tp)
-        if (tp1a.isInstanceOf[WildcardType] || tp2a.isInstanceOf[WildcardType])
-          WildcardType(wildBounds(tp1a) & wildBounds(tp2a))
-        else
-          tp.derivedAndType(tp1a, tp2a)
-      case tp: OrType =>
-        val tp1a = apply(tp.tp1)
-        val tp2a = apply(tp.tp2)
-        if (tp1a.isInstanceOf[WildcardType] || tp2a.isInstanceOf[WildcardType])
-          WildcardType(tp1a.bounds | tp2a.bounds)
-        else
-          tp.derivedOrType(tp1a, tp2a)
-      case tp: SelectionProto =>
-        tp.derivedSelectionProto(tp.name, this(tp.refinedInfo), NoViewsAllowed)
-      case tp: ViewProto =>
-        tp.derivedViewProto(this(tp.argType), this(tp.resultType))
-      case _ =>
-        mapOver(tp)
-    }
+  final def wildApprox(tp: Type, theMap: WildApproxMap = null)(implicit ctx: Context): Type = tp match {
+    case tp: NamedType => // default case, inlined for speed
+      if (tp.symbol.isStatic) tp
+      else tp.derivedSelect(wildApprox(tp.prefix, theMap))
+    case tp: RefinedType => // default case, inlined for speed
+      tp.derivedRefinedType(wildApprox(tp.parent, theMap), tp.refinedName, wildApprox(tp.refinedInfo, theMap))
+    case tp: TypeBounds if tp.lo eq tp.hi => // default case, inlined for speed
+      tp.derivedTypeAlias(wildApprox(tp.lo, theMap))
+    case PolyParam(pt, pnum) =>
+      WildcardType(wildApprox(pt.paramBounds(pnum)).bounds)
+    case MethodParam(mt, pnum) =>
+      WildcardType(TypeBounds.upper(wildApprox(mt.paramTypes(pnum))))
+    case tp: TypeVar =>
+      val inst = tp.instanceOpt
+      if (inst.exists) wildApprox(inst)
+      else ctx.typerState.constraint.at(tp.origin) match {
+        case bounds: TypeBounds => wildApprox(WildcardType(bounds))
+        case NoType => WildcardType
+      }
+    case tp: AndType =>
+      val tp1a = wildApprox(tp.tp1)
+      val tp2a = wildApprox(tp.tp2)
+      def wildBounds(tp: Type) =
+        if (tp.isInstanceOf[WildcardType]) tp.bounds else TypeBounds.upper(tp)
+      if (tp1a.isInstanceOf[WildcardType] || tp2a.isInstanceOf[WildcardType])
+        WildcardType(wildBounds(tp1a) & wildBounds(tp2a))
+      else
+        tp.derivedAndType(tp1a, tp2a)
+    case tp: OrType =>
+      val tp1a = wildApprox(tp.tp1)
+      val tp2a = wildApprox(tp.tp2)
+      if (tp1a.isInstanceOf[WildcardType] || tp2a.isInstanceOf[WildcardType])
+        WildcardType(tp1a.bounds | tp2a.bounds)
+      else
+        tp.derivedOrType(tp1a, tp2a)
+    case tp: SelectionProto =>
+      tp.derivedSelectionProto(tp.name, wildApprox(tp.memberProto), NoViewsAllowed)
+    case tp: ViewProto =>
+      tp.derivedViewProto(wildApprox(tp.argType), wildApprox(tp.resultType))
+    case  _: ThisType | _: BoundType | NoPrefix => // default case, inlined for speed
+      tp
+    case _ =>
+      (if (theMap != null) theMap else new WildApproxMap).mapOver(tp)
   }
 
+  private[Inferencing] class WildApproxMap(implicit ctx: Context) extends TypeMap {
+    def apply(tp: Type) = wildApprox(tp, this)
+  }
 
   /** Add all parameters in given polytype `pt` to the constraint's domain.
    *  If the constraint contains already some of these parameters in its domain,
@@ -598,34 +602,33 @@ object Inferencing {
    *  approximate it by its lower bound. Otherwise, if it appears contravariantly
    *  in type `tp` approximate it by its upper bound.
    */
-  def interpolateUndetVars(tree: Tree)(implicit ctx: Context): Unit = Stats.track("interpolateUndetVars") {
-    val tp = tree.tpe.widen
+  def interpolateUndetVars(tree: Tree)(implicit ctx: Context): Unit = {
     val constraint = ctx.typerState.constraint
+    val qualifies = (tvar: TypeVar) => tree contains tvar.owningTree
+    def interpolate() = Stats.track("interpolateUndetVars") {
+      val tp = tree.tpe.widen
+      constr.println(s"interpolate undet vars in ${tp.show}, pos = ${tree.pos}, mode = ${ctx.mode}, undets = ${constraint.uninstVars map (tvar => s"${tvar.show}@${tvar.owningTree.pos}")}")
+      constr.println(s"qualifying undet vars: ${constraint.uninstVars filter qualifies map (tvar => s"$tvar / ${tvar.show}")}, constraint: ${constraint.show}")
 
-    constr.println(s"interpolate undet vars in ${tp.show}, pos = ${tree.pos}, mode = ${ctx.mode}, undets = ${constraint.uninstVars map (tvar => s"${tvar.show}@${tvar.owningTree.pos}")}")
-    constr.println(s"qualifying undet vars: ${constraint.uninstVars filter qualifies map (tvar => s"$tvar / ${tvar.show}")}")
-    constr.println(s"fulltype: $tp") // !!! DEBUG
-    constr.println(s"constraint: ${constraint.show}")
-
-    def qualifies(tvar: TypeVar) = tree contains tvar.owningTree
-    val vs = tp.variances(tvar => (constraint contains tvar) && qualifies(tvar))
-    var changed = false
-    vs foreachBinding { (tvar, v) =>
-      if (v != 0) {
-        typr.println(s"interpolate ${if (v == 1) "co" else "contra"}variant ${tvar.show} in ${tp.show}")
-        tvar.instantiate(fromBelow = v == 1)
-        changed = true
-      }
-    }
-    if (changed) // instantiations might have uncovered new typevars to interpolate
-      interpolateUndetVars(tree)
-    else
-      constraint.foreachUninstVar { tvar =>
-        if (!(vs contains tvar) && qualifies(tvar)) {
-          typr.println(s"instantiating non-occurring ${tvar.show} in ${tp.show}")
-          tvar.instantiate(fromBelow = true)
+      val vs = tp.variances(qualifies)
+      var changed = false
+      vs foreachBinding { (tvar, v) =>
+        if (v != 0) {
+          typr.println(s"interpolate ${if (v == 1) "co" else "contra"}variant ${tvar.show} in ${tp.show}")
+          tvar.instantiate(fromBelow = v == 1)
+          changed = true
         }
       }
+      if (changed) // instantiations might have uncovered new typevars to interpolate
+        interpolateUndetVars(tree)
+      else
+        for (tvar <- constraint.uninstVars)
+          if (!(vs contains tvar) && qualifies(tvar)) {
+            typr.println(s"instantiating non-occurring ${tvar.show} in ${tp.show}")
+            tvar.instantiate(fromBelow = true)
+          }
+    }
+    if (constraint.uninstVars exists qualifies) interpolate()
   }
 
   /** Instantiate undetermined type variables to that type `tp` is
@@ -633,8 +636,7 @@ object Inferencing {
    *  typevar is not uniquely determined, return that typevar in a Some.
    */
   def maximizeType(tp: Type)(implicit ctx: Context): Option[TypeVar] = Stats.track("maximizeType") {
-    val constraint = ctx.typerState.constraint
-    val vs = tp.variances(constraint contains _)
+    val vs = tp.variances(alwaysTrue)
     var result: Option[TypeVar] = None
     vs foreachBinding { (tvar, v) =>
       if (v == 1) tvar.instantiate(fromBelow = false)

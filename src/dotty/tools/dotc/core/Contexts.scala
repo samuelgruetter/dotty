@@ -246,7 +246,6 @@ object Contexts {
 
     /** A condensed context containing essential information of this but
      *  no outer contexts except the initial context.
-     */
     private var _condensed: CondensedContext = null
     def condensed: CondensedContext = {
       if (_condensed eq outer.condensed)
@@ -264,6 +263,7 @@ object Contexts {
           .withMoreProperties(moreProperties)
       _condensed
     }
+    */
 
     /** A fresh clone of this context. */
     def fresh: FreshContext = {
@@ -291,15 +291,15 @@ object Contexts {
   /** A condensed context provides only a small memory footprint over
    *  a Context base, and therefore can be stored without problems in
    *  long-lived objects.
-   */
   abstract class CondensedContext extends Context {
     override def condensed = this
   }
+  */
 
   /** A fresh context allows selective modification
    *  of its attributes using the with... methods.
    */
-  abstract class FreshContext extends CondensedContext {
+  abstract class FreshContext extends Context {
     def withPeriod(period: Period): this.type = { this.period = period; this }
     def withNewMode(mode: Mode): this.type = { this.mode = mode; this }
     def withTyperState(typerState: TyperState): this.type = { this.typerState = typerState; this }
@@ -387,7 +387,7 @@ object Contexts {
     usePhases(SomePhase :: Nil)
 
     /** The standard definitions */
-    val definitions = new Definitions()(initialCtx)
+    val definitions = new Definitions
   }
 
   /** The essential mutable state of a context base, collected into a common class */
@@ -401,10 +401,10 @@ object Contexts {
     def nextId = { _nextId += 1; _nextId }
 
     /** A map from a superclass id to the typeref of the class that has it */
-    private[core] var classOfId = new Array[TypeRef](InitialSuperIdsSize)
+    private[core] var classOfId = new Array[ClassSymbol](InitialSuperIdsSize)
 
     /** A map from a the typeref of a class to its superclass id */
-    private[core] val superIdOfClass = new mutable.AnyRefMap[TypeRef, Int]
+    private[core] val superIdOfClass = new mutable.AnyRefMap[ClassSymbol, Int]
 
     /** The last allocated superclass id */
     private[core] var lastSuperId = -1
@@ -413,23 +413,16 @@ object Contexts {
     private[core] def nextSuperId: Int = {
       lastSuperId += 1;
       if (lastSuperId >= classOfId.length) {
-        val tmp = new Array[TypeRef](classOfId.length * 2)
+        val tmp = new Array[ClassSymbol](classOfId.length * 2)
         classOfId.copyToArray(tmp)
         classOfId = tmp
       }
       lastSuperId
     }
 
-    // SymDenotations state
-    /** A table where unique superclass bits are kept.
-     *  These are bitsets that contain the superclass ids of all base classes of a class.
-     *  Used to speed up isSubClass tests.
-     */
-    private[core] val uniqueBits = new util.HashSet[BitSet]("superbits", 1024)
-
     // Types state
     /** A table for hash consing unique types */
-    private[core] val uniques = new util.HashSet[Type]("uniques", initialUniquesCapacity) {
+    private[core] val uniques = new util.HashSet[Type](initialUniquesCapacity) {
       override def hash(x: Type): Int = x.hash
     }
 
@@ -442,11 +435,14 @@ object Contexts {
     /** A table for hash consing unique type bounds */
     private[core] val uniqueTypeBounds = new TypeBoundsUniques
 
-    private def uniqueMaps = List(uniques, uniqueRefinedTypes, uniqueNamedTypes, uniqueTypeBounds)
+    private def uniqueSets = Map(
+        "uniques" -> uniques,
+        "uniqueRefinedTypes" -> uniqueRefinedTypes,
+        "uniqueNamedTypes" -> uniqueNamedTypes,
+        "uniqueTypeBounds" -> uniqueTypeBounds)
 
     /** A map that associates label and size of all uniques sets */
-    def uniquesSize: Map[String, Int] =
-      uniqueMaps.map(m => m.label -> m.size).toMap
+    def uniquesSizes: Map[String, Int] = uniqueSets.mapValues(_.size)
 
     /** The number of recursive invocation of underlying on a NamedType
      *  during a controlled operation.
@@ -472,6 +468,13 @@ object Contexts {
 
     /** Should warnings and errors containing non-sensical strings be suppressed? */
     private[dotc] var suppressNonSensicalErrors = true
+
+    def reset() = {
+      for ((_, set) <- uniqueSets) set.clear()
+      for (i <- 0 until classOfId.length) classOfId(i) = null
+      superIdOfClass.clear()
+      lastSuperId = -1
+    }
   }
 
   object Context {
@@ -486,7 +489,7 @@ object Contexts {
   }
 
   /** Info that changes on each compiler run */
-  class RunInfo(initctx: Context) extends ImplicitRunInfo {
+  class RunInfo(initctx: Context) extends ImplicitRunInfo with ConstraintRunInfo {
     implicit val ctx: Context = initctx
   }
 

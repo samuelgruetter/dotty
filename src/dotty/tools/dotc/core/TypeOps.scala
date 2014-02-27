@@ -36,6 +36,8 @@ trait TypeOps { this: Context =>
             asSeenFrom(tp.parent, pre, cls, theMap),
             tp.refinedName,
             asSeenFrom(tp.refinedInfo, pre, cls, theMap))
+        case tp: TypeBounds if tp.lo eq tp.hi =>
+          tp.derivedTypeAlias(asSeenFrom(tp.lo, pre, cls, theMap))
         case _ =>
           (if (theMap != null) theMap else new AsSeenFromMap(pre, cls))
             .mapOver(tp)
@@ -45,6 +47,31 @@ trait TypeOps { this: Context =>
 
   class AsSeenFromMap(pre: Type, cls: Symbol) extends TypeMap {
     def apply(tp: Type) = asSeenFrom(tp, pre, cls, this)
+  }
+
+  /** Implementation of Types#simplified */
+  final def simplify(tp: Type, theMap: SimplifyMap): Type = tp match {
+    case tp: NamedType =>
+      if (tp.symbol.isStatic) tp
+      else tp.derivedSelect(simplify(tp.prefix, theMap))
+    case tp: PolyParam =>
+      typerState.constraint.typeVarOfParam(tp) orElse tp
+    case  _: ThisType | _: BoundType | NoPrefix =>
+      tp
+    case tp: RefinedType =>
+      tp.derivedRefinedType(simplify(tp.parent, theMap), tp.refinedName, simplify(tp.refinedInfo, theMap))
+    case tp: TypeBounds if tp.lo eq tp.hi =>
+      tp.derivedTypeAlias(simplify(tp.lo, theMap))
+    case AndType(l, r) =>
+      simplify(l, theMap) & simplify(r, theMap)
+    case OrType(l, r) =>
+      simplify(l, theMap) | simplify(r, theMap)
+    case _ =>
+      (if (theMap != null) theMap else new SimplifyMap).mapOver(tp)
+  }
+
+  class SimplifyMap extends TypeMap {
+    def apply(tp: Type) = simplify(tp, this)
   }
 
   final def isVolatile(tp: Type): Boolean = {
@@ -88,7 +115,7 @@ trait TypeOps { this: Context =>
 
   private def enterArgBinding(formal: Symbol, info: Type, cls: ClassSymbol, decls: Scope) = {
     val lazyInfo = new LazyType { // needed so we do not force `formal`.
-      def complete(denot: SymDenotation): Unit = {
+      def complete(denot: SymDenotation)(implicit ctx: Context): Unit = {
         denot setFlag formal.flags & RetainedTypeArgFlags
         denot.info = info
       }
