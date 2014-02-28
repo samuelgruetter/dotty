@@ -393,8 +393,11 @@ class Namer { typer: Typer =>
 
     protected implicit val ctx: Context = localContext(cls)
 
-    val TypeDef(_, name, impl @ Template(constr, parents, self, body)) = original
-
+    val TypeDef(_, name, impl @ Template(constr, parents0, self, body)) = original
+    
+    System.err.println("----------parents0 are: " + parents0)
+    val parents = parents0.filterNot(_.isEmpty)
+    
     val (params, rest) = body span {
       case td: TypeDef => td.mods is Param
       case td: ValDef => td.mods is ParamAccessor

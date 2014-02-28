@@ -1,7 +1,5 @@
 
-object structural {
-  
+object test123 {  
   type A = { def a: Int }
-  
-  trait B { def b: Int }
+  def f(a: A): A = a
 }

@@ -43,6 +43,8 @@ object Erasure {
     case tp: RefinedType =>
       val parent = tp.parent
       if (parent isRef defn.ArrayClass) eraseArray(tp)
+      // If we have a structural type (a refinement of NoType):
+      else if (parent == NoType) defn.AnyRefType
       else erasure(parent)
     case ConstantType(_) | NoType | NoPrefix =>
       tp
@@ -119,6 +121,8 @@ object Erasure {
           case tp1 =>
             sigName(tp1)
         }
+      // If we have a structural type (a refinement of NoType):
+      else if (parent == NoType) sigName(defn.AnyRefType)
       else sigName(parent)
     case tp: TypeProxy =>
       sigName(tp.underlying)
