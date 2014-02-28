@@ -104,7 +104,10 @@ object Erasure {
   /** The name of the type as it is used in `Signature`s.
    *  Need to ensure correspondence with erasure!
    */
-  def sigName(tp: Type)(implicit ctx: Context): TypeName = tp match {
+  def sigName(tp: Type)(implicit ctx: Context): TypeName ={ 
+    ctx.log(s"[sigName----tp is ${tp.show} ## ${tp.toString}")
+    tp
+  } match {
     case tp: TypeRef =>
       val sym = tp.symbol
       if (sym.isClass)
@@ -132,6 +135,9 @@ object Erasure {
       lubClass(tp1, tp2).name
     case ErrorType | WildcardType =>
       tpnme.WILDCARD
+    case _ =>
+      System.err.println(s"tp = ${tp.show} ## $tp")
+      sys.error("problem here!!")
   }
 
   def resultErasure(tp: Type)(implicit ctx: Context) =

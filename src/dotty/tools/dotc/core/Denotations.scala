@@ -362,7 +362,9 @@ object Denotations {
     def hasUniqueSym: Boolean
     protected def newLikeThis(symbol: Symbol, info: Type): SingleDenotation
 
-    final def signature(implicit ctx: Context): Signature = {
+    final def signature(implicit ctx: Context): Signature = 
+    ctx.traceIndented[Signature](s"(${this}).signature")
+    {
       if (isType) Signature.NotAMethod // don't force info if this is a type SymDenotation
       else info match {
         case info: SignedType =>

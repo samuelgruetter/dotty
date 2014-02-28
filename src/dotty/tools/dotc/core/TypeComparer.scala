@@ -202,6 +202,7 @@ class TypeComparer(initctx: Context) extends DotClass {
     !(tp2 isRef NothingClass) && isSubType(tp1, tp2)
 
   def isSubType(tp1: Type, tp2: Type): Boolean = /*>|>*/ ctx.traceIndented(s"isSubType ${tp1.show} <:< ${tp2.show}", subtyping) /*<|<*/ {
+    //ctx.log(TypeComparer.explained(implicit ctx => tp1 <:< tp2))
     if (tp2 eq NoType) false
     else if (tp1 eq tp2) true
     else {
@@ -272,7 +273,7 @@ class TypeComparer(initctx: Context) extends DotClass {
     }
   }
 
-  def firstTry(tp1: Type, tp2: Type): Boolean = {
+  def firstTry(tp1: Type, tp2: Type): Boolean = { println("firstTry")
     tp2 match {
       case tp2: NamedType =>
         def compareNamed = {
@@ -330,7 +331,7 @@ class TypeComparer(initctx: Context) extends DotClass {
     }
   }
 
-  def secondTry(tp1: Type, tp2: Type): Boolean = tp1 match {
+  def secondTry(tp1: Type, tp2: Type): Boolean = {println("secondTry"); tp1} match {
     case tp1: NamedType =>
       tp2 match {
         case ThisType(cls) if cls eq tp1.symbol.moduleClass =>
@@ -377,7 +378,7 @@ class TypeComparer(initctx: Context) extends DotClass {
       thirdTry(tp1, tp2)
   }
 
-  def secondTryNamed(tp1: NamedType, tp2: Type): Boolean = tp1.info match {
+  def secondTryNamed(tp1: NamedType, tp2: Type): Boolean = {println("secondTryNamed"); tp1.info} match {
     case OrType(tp11, tp12) =>
       val sd = tp1.denot.asSingleDenotation
       def derivedRef(tp: Type) =
@@ -392,7 +393,7 @@ class TypeComparer(initctx: Context) extends DotClass {
       thirdTry(tp1, tp2)
   }
 
-  def thirdTry(tp1: Type, tp2: Type): Boolean = tp2 match {
+  def thirdTry(tp1: Type, tp2: Type): Boolean = {println("thirdTry"); tp2} match {
     case tp2: NamedType =>
       def compareNamed: Boolean = tp2.info match {
         case TypeBounds(lo2, hi2) =>
@@ -522,7 +523,7 @@ class TypeComparer(initctx: Context) extends DotClass {
       fourthTry(tp1, tp2)
   }
 
-  def fourthTry(tp1: Type, tp2: Type): Boolean = tp1 match {
+  def fourthTry(tp1: Type, tp2: Type): Boolean = {println("fourthTry"); tp1} match {
     case tp1: TypeRef =>
       tp1.info match {
         case TypeBounds(lo1, hi1) =>

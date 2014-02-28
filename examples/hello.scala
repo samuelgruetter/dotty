@@ -10,6 +10,13 @@ object world extends App {
   
   trait AB extends A with B
   
+  def id[T](x: T): T = {
+    println(s"id($x)=$x")
+    x
+  }
+  
+  val a: Cool = id("hi")
+  
   def g(cond: Boolean) = f(cond)(new AB())
 
   type Cool = Int | String
@@ -107,23 +114,5 @@ object world extends App {
   }
   */
   
-  
-  // type A = { def a: Int }
-  
-  /*
-  type B = {
-    def b: Int
-  }
-  
-  type AB = A & B
-  
-  def f(ab: AB): AB = ab
-  
-  val ab = new Object {
-    def a = 43
-    def b = 42
-  }
-  
-  f(ab)
-  */
+
 }

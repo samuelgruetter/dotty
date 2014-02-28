@@ -709,7 +709,10 @@ object Types {
     }
 
     /** The resultType of a PolyType, MethodType, or ExprType, the type itself for others */
-    def resultType: Type = this
+    def resultType: Type = {
+      my.println("resultType called on: " + this)
+      this
+    }
 
     /** The final result type of a PolyType, MethodType, or ExprType, after skipping
      *  all parameter sections, the type itself for all others.
@@ -1421,16 +1424,32 @@ object Types {
   /** A trait that mixes in functionality for signature caching */
   trait SignedType extends Type {
 
-    private[this] var mySignature: Signature = _
-    private[this] var mySignatureRunId: Int = NoRunId
+    /*private[this]*/ var mySignature: Signature = _
+    /*private[this]*/ var mySignatureRunId: Int = NoRunId
 
     protected def computeSignature(implicit ctx: Context): Signature
 
-    protected def resultSignature(implicit ctx: Context) = resultType match {
+    protected def resultSignature(implicit ctx: Context) = {
+      val x = resultType; 
+      ctx.log(s"----resultType is ${x.show} ## ${x.toString}")
+      x
+     } match {
       case rtp: SignedType => rtp.signature
       case tp => Signature(tp)
     }
 
+    final override def signature(implicit ctx: Context): Signature = 
+    ctx.traceIndented[Signature](s"==> getting signature of ${SignedType.this.show} ## ${SignedType.this.toString}", 
+        (res: Any) => s"<== signature of ${SignedType.this.show} is $res")
+    {
+      if (ctx.runId != mySignatureRunId) {
+        mySignature = computeSignature
+        mySignatureRunId = ctx.runId
+      }
+      mySignature
+    }
+    
+    /*
     final override def signature(implicit ctx: Context): Signature = {
       if (ctx.runId != mySignatureRunId) {
         mySignature = computeSignature
@@ -1438,6 +1457,7 @@ object Types {
       }
       mySignature
     }
+    */
   }
 
   trait MethodOrPoly extends SignedType
@@ -1446,7 +1466,12 @@ object Types {
       (resultTypeExp: MethodType => Type)
     extends CachedGroundType with BindingType with TermType with MethodOrPoly with NarrowCached { thisMethodType =>
 
+      
+    typr.println(s"paramTypes of $this ARE $paramTypes")
+    
     override val resultType = resultTypeExp(this)
+    typr.println(s"resultType of $this IS $resultType")
+    
     assert(resultType != NoType)
     def isJava = false
     def isImplicit = false
@@ -1478,9 +1503,18 @@ object Types {
       myIsDependent
     }
 
-    protected def computeSignature(implicit ctx: Context): Signature =
+    protected def computeSignatureOrig(implicit ctx: Context): Signature =
       paramTypes ++: resultSignature
-
+    
+    protected def computeSignature(implicit ctx: Context): Signature = {
+      val pt = paramTypes
+      val rs: Option[Signature] = try { Some(resultSignature) } catch {case e: Exception => None}
+      typr.println("this = " + this)
+      typr.println("paramTypes = " + pt)
+      typr.println("resultSignature = " + rs)
+      pt ++: rs.get
+    }
+      
     def derivedMethodType(paramNames: List[TermName], paramTypes: List[Type], restpe: Type)(implicit ctx: Context) =
       if ((paramNames eq this.paramNames) && (paramTypes eq this.paramTypes) && (restpe eq this.resultType)) this
       else {

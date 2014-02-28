@@ -51,6 +51,8 @@ object Signature {
   val NotAMethod = Signature(List(), EmptyTypeName)
 
   /** The signature of a method with no parameters and result type `resultType`. */
-  def apply(resultType: Type)(implicit ctx: Context): Signature =
+  def apply(resultType: Type)(implicit ctx: Context): Signature = {
+    ctx.log(s"[Signature.apply----resultType is ${resultType.show} ## ${resultType.toString}")
     apply(Nil, sigName(resultType))
+  }
 }
