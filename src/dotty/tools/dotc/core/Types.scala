@@ -495,10 +495,12 @@ object Types {
           this, that, alwaysMatchSimple = !ctx.phase.erasedTypes)
       }
 
-    /** The basetype of this type with given class symbol */
-    final def baseType(base: Symbol)(implicit ctx: Context): Type = /*ctx.traceIndented(s"$this baseType $base")*/ /*>|>*/ track("baseType") /*<|<*/ {
+    /** The basetype TypeRef of this type with given class symbol,
+     *  but without including any type arguments
+     */
+    final def baseTypeRef(base: Symbol)(implicit ctx: Context): Type = /*ctx.traceIndented(s"$this baseTypeRef $base")*/ /*>|>*/ track("baseTypeRef") /*<|<*/ {
       base.denot match {
-        case classd: ClassDenotation => classd.baseTypeOf(this)//widen.dealias)
+        case classd: ClassDenotation => classd.baseTypeRefOf(this)//widen.dealias)
         case _ => NoType
       }
     }
@@ -1917,11 +1919,21 @@ object Types {
 
     def contains(tp: Type)(implicit ctx: Context) = lo <:< tp && tp <:< hi
 
-    def & (that: TypeBounds)(implicit ctx: Context): TypeBounds =
-      derivedTypeBounds(this.lo | that.lo, this.hi & that.hi, this commonVariance that)
+    def & (that: TypeBounds)(implicit ctx: Context): TypeBounds = {
+      val v = this commonVariance that
+      if (v != 0 && (this.lo eq this.hi) && (that.lo eq that.hi))
+        if (v > 0) derivedTypeAlias(this.hi & that.hi, v)
+        else derivedTypeAlias(this.lo | that.lo, v)
+      else derivedTypeBounds(this.lo | that.lo, this.hi & that.hi, v)
+    }
 
-    def | (that: TypeBounds)(implicit ctx: Context): TypeBounds =
-      derivedTypeBounds(this.lo & that.lo, this.hi | that.hi, this commonVariance that)
+    def | (that: TypeBounds)(implicit ctx: Context): TypeBounds = {
+      val v = this commonVariance that
+      if (v == 0 && (this.lo eq this.hi) && (that.lo eq that.hi))
+        if (v > 0) derivedTypeAlias(this.hi | that.hi, v)
+        else derivedTypeAlias(this.lo & that.lo, v)
+      else derivedTypeBounds(this.lo & that.lo, this.hi | that.hi, v)
+    }
 
     override def & (that: Type)(implicit ctx: Context) = that match {
       case that: TypeBounds => this & that

@@ -406,7 +406,7 @@ class TypeComparer(initctx: Context) extends DotClass {
         case _ =>
           val cls2 = tp2.symbol
           if (cls2.isClass) {
-            val base = tp1.baseType(cls2)
+            val base = tp1.baseTypeRef(cls2)
             if (base.exists && (base ne tp1)) return isSubType(base, tp2)
             if ( cls2 == defn.SingletonClass && tp1.isStable
               || cls2 == defn.NotNullClass && tp1.isNotNull
@@ -721,7 +721,7 @@ class TypeComparer(initctx: Context) extends DotClass {
     else isSubType(tp1, tp2) && isSubType(tp2, tp1)
 
   /** The greatest lower bound of two types */
-  def glb(tp1: Type, tp2: Type): Type =
+  def glb(tp1: Type, tp2: Type): Type = /*>|>*/ ctx.traceIndented(s"glb(${tp1.show}, ${tp2.show})", typr, show = true) /*<|<*/ {
     if (tp1 eq tp2) tp1
     else if (!tp1.exists) tp2
     else if (!tp2.exists) tp1
@@ -744,6 +744,7 @@ class TypeComparer(initctx: Context) extends DotClass {
             }
         }
     }
+  }
 
   /** The greatest lower bound of a list types */
   final def glb(tps: List[Type]): Type =
@@ -871,17 +872,10 @@ class TypeComparer(initctx: Context) extends DotClass {
 
   /** Try to distribute `&` inside type, detect and handle conflicts */
   private def distributeAnd(tp1: Type, tp2: Type): Type = tp1 match {
-    case tp1 @ TypeBounds(lo1, hi1) =>
+    case tp1: TypeBounds =>
       tp2 match {
-        case tp2 @ TypeBounds(lo2, hi2) =>
-          if ((lo1 eq hi1) && (lo2 eq hi2)) {
-            val v = tp1 commonVariance tp2
-            if (v > 0) return TypeAlias(hi1 & hi2, v)
-            if (v < 0) return TypeAlias(lo1 | lo2, v)
-          }
-          TypeBounds(lo1 | lo2, hi1 & hi2)
-        case _ =>
-          andConflict(tp1, tp2)
+        case tp2: TypeBounds => tp1 & tp2
+        case _ => andConflict(tp1, tp2)
       }
     case tp1: ClassInfo =>
       tp2 match {
@@ -945,17 +939,10 @@ class TypeComparer(initctx: Context) extends DotClass {
 
   /** Try to distribute `|` inside type, detect and handle conflicts */
   private def distributeOr(tp1: Type, tp2: Type): Type = tp1 match {
-    case tp1 @ TypeBounds(lo1, hi1) =>
+    case tp1: TypeBounds =>
       tp2 match {
-        case tp2 @ TypeBounds(lo2, hi2) =>
-          if ((lo1 eq hi1) && (lo2 eq hi2)) {
-            val v = tp1 commonVariance tp2
-            if (v > 0) return TypeAlias(hi1 | hi2, v)
-            if (v < 0) return TypeAlias(lo1 & lo2, v)
-          }
-          TypeBounds(lo1 & lo2, hi1 | hi2)
-        case _ =>
-          orConflict(tp1, tp2)
+        case tp2: TypeBounds => tp1 | tp2
+        case _ => orConflict(tp1, tp2)
       }
     case tp1: ClassInfo =>
       tp2 match {
