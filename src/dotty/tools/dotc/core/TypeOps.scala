@@ -75,6 +75,12 @@ trait TypeOps { this: Context =>
   }
 
   final def isVolatile(tp: Type): Boolean = {
+    val res = isVolatileImpl(tp)
+    println(s"----isVolatile($tp)=$res")
+    res
+  }
+  
+  final def isVolatileImpl(tp: Type): Boolean = {
     /** Pre-filter to avoid expensive DNF computation */
     def needsChecking(tp: Type, isPart: Boolean): Boolean = tp match {
       case tp: TypeRef =>
@@ -88,7 +94,7 @@ trait TypeOps { this: Context =>
         needsChecking(tp.parent, true)
       case tp: TypeProxy =>
         needsChecking(tp.underlying, isPart)
-      case AndType(l, r) =>
+      case AndType(l, r) => // not the right thing!
         needsChecking(l, true) || needsChecking(r, true)
       case OrType(l, r) =>
         isPart || needsChecking(l, isPart) && needsChecking(r, isPart)
