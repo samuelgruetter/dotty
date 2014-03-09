@@ -76,49 +76,44 @@ trait TypeOps { this: Context =>
     def apply(tp: Type) = simplify(tp, this)
   }
 
-  final def isVolatile(tp: Type): Boolean = {
-
-    /** Pre-filter to avoid expensive DNF computation
-     *  If needsChecking returns false it is guaranteed that
-     *  DNF does not contain intersections, or abstract types with upper
-     *  bounds that themselves need checking.
-     */
-    def needsChecking(tp: Type, isPart: Boolean): Boolean = tp match {
+  /**
+   * Checks whether there exist any values of type `tp` (i.e. whether `tp` is realizable aka inhabited).
+   * 
+   * An example for a non realizable type is a type with an abstract type member whose lower bound is not a
+   * subtype of its upper bound. If we have a lazy value of such a non-realizable type, unsoundness can result.
+   * 
+   * We only return `true` when we're sure that `tp` is realizable. Whenever we're unsure, we default to `false`.
+   */
+  final def isRealizable(tp: Type): Boolean = /*>|>*/ ctx.traceIndented(s"isRealizable($tp)", checks, show = true) /*<|<*/ {
+    tp match {
+      case bottom if bottom isRef defn.NothingClass => false
       case tp: TypeRef =>
         tp.info match {
           case TypeBounds(lo, hi) =>
-            if (lo eq hi) needsChecking(hi, isPart)
-            else isPart || tp.controlled(isVolatile(hi))
-          case _ => false
+            tp.controlled(isRealizable(lo)) && tp.controlled(isRealizable(hi)) && lo <:< hi
+          case _: ClassInfo => true
+          case _ =>
+            checks.println(s"isRealizable defaulting to false for <<<$tp>>>, whose info is <<<${tp.info}>>>")
+            // TODO make tests for which execution gets here
+            sys.error("case not implemented")
+            false
         }
       case tp: RefinedType =>
-        needsChecking(tp.parent, true)
+        // TODO make sure refinements don't conflict with their parents
+        isRealizable(tp.parent)
       case tp: TypeProxy =>
-        needsChecking(tp.underlying, isPart)
+        isRealizable(tp.underlying)
       case tp: AndType =>
-        true
-      case tp: OrType =>
-        isPart || needsChecking(tp.tp1, isPart) && needsChecking(tp.tp2, isPart)
-      case _ =>
+        // TODO we can be more precise here
         false
-    }
-
-    needsChecking(tp, false) && {
-      DNF(tp) forall { case (parents, refinedNames) =>
-        val absParents = parents filter (_.symbol is Deferred)
-        absParents.nonEmpty && {
-          absParents.lengthCompare(2) >= 0 || {
-            val ap = absParents.head
-            ((parents exists (p =>
-              (p ne ap)
-              || p.memberNames(abstractTypeNameFilter, tp).nonEmpty
-              || p.memberNames(abstractTermNameFilter, tp).nonEmpty))
-            || (refinedNames & tp.memberNames(abstractTypeNameFilter, tp)).nonEmpty
-            || (refinedNames & tp.memberNames(abstractTermNameFilter, tp)).nonEmpty
-            || isVolatile(ap))
-          }
-        }
-      }
+      case tp: OrType =>
+        isRealizable(tp.tp1) || isRealizable(tp.tp2)
+      case NoType => false
+      case _ =>
+        checks.println(s"isRealizable defaulting to false for <<<$tp>>>")
+        // TODO make tests for which execution gets here 
+        sys.error("case not implemented")
+        false
     }
   }
 
@@ -148,8 +143,6 @@ trait TypeOps { this: Context =>
         TypeOps.emptyDNF
     }
   }
-
-
 
   private def enterArgBinding(formal: Symbol, info: Type, cls: ClassSymbol, decls: Scope) = {
     val lazyInfo = new LazyType { // needed so we do not force `formal`.
