@@ -5,8 +5,6 @@ object v3 {
     type D <: {
       type T = String
     }
-    
-    lazy val d: D = ???
   }
   
   trait B {
