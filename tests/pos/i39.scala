@@ -1,7 +1,7 @@
 object i39 {
 
   trait B {
-    type D <: { type T }
+    type D = { type T }
     def d: D
   }
 
