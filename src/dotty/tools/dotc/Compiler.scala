@@ -11,8 +11,16 @@ import dotty.tools.dotc.core.Phases.Phase
 
 class Compiler {
 
-  def phases: List[Phase] = List(new FrontEnd)
+  private def _phases: List[Phase] = List(new FrontEnd)
 
+  def phases: List[Phase] = _phases
+  
+  /** Returns all phases until given phase, including given phase. Does not depend on `def phases`.*/
+  def phasesUpTo(phase: String): List[Phase] = {
+    val i = _phases.indexWhere(_.name == phase) // -1 if not found
+    _phases.take(i+1)
+  }
+  
   var runId = 1
   def nextRunId = { runId += 1; runId }
 
