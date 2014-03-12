@@ -17,29 +17,17 @@ class Compiler {
   
   /** Returns all phases until given phase, including given phase. Does not depend on `def phases`.*/
   def phasesUpTo(phase: String): List[Phase] = {
-    val i = _phases.indexWhere(_.name == phase) // -1 if not found
+    val i = _phases.indexWhere(_.name == phase)
+    if (i < 0) sys.error(s"unknown phase '$phase'")
     _phases.take(i+1)
   }
   
   var runId = 1
   def nextRunId = { runId += 1; runId }
 
-  def rootContext(implicit ctx: Context): Context = {
-    ctx.definitions.init(ctx)
-    ctx.usePhases(phases)
-    val start = ctx.fresh
-      .withPeriod(Period(nextRunId, FirstPhaseId))
-      .withOwner(defn.RootClass)
-      .withTyper(new Typer)
-      .withNewMode(Mode.ImplicitsEnabled)
-      .withTyperState(new MutableTyperState(ctx.typerState, new ConsoleReporter()(ctx), isCommittable = true))
-    ctx.definitions.init(start)
-    def addImport(ctx: Context, sym: Symbol) =
-      ctx.fresh.withImportInfo(ImportInfo.rootImport(sym)(ctx))
-    (start.withRunInfo(new RunInfo(start)) /: defn.RootImports)(addImport)
-  }
-  
-  def rootContextWithReporter(reporter: Reporter)(implicit ctx: Context): Context = {
+  def rootContext(implicit ctx: Context): Context = rootContext(new ConsoleReporter()(ctx))(ctx)
+
+  def rootContext(reporter: Reporter)(implicit ctx: Context): Context = {
     ctx.definitions.init(ctx)
     ctx.usePhases(phases)
     val start = ctx.fresh
@@ -62,8 +50,8 @@ class Compiler {
     }
   }
   
-  def newRunWithReporter(reporter: Reporter)(implicit ctx: Context): Run = {
-    try new Run(this)(rootContextWithReporter(reporter))
+  def newRun(reporter: Reporter)(implicit ctx: Context): Run = {
+    try new Run(this)(rootContext(reporter))
     finally {
       ctx.base.reset()
       ctx.runInfo.clear()

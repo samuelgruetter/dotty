@@ -4,55 +4,51 @@ import dotty.tools.dotc.core._
 import dotty.tools.dotc.core.Contexts._
 import dotty.tools.dotc.core.Symbols._
 import dotty.tools.dotc.core.Flags._
+import Types._, Symbols._, Decorators._
 import dotty.tools.dotc.printing.Texts._
-import dotty.tools.dotc.reporting.ConsoleReporter
+import dotty.tools.dotc.reporting._
 import dotty.tools.dotc.core.Decorators._
 import dotty.tools.dotc.ast.tpd
 import dotty.tools.dotc.Compiler
-import dotty.tools.dotc
+import dotty.tools.dotc.reporting.Reporter._
 import dotty.tools.dotc.core.Phases.Phase
 
-import dotty.tools.dotc.reporting.Reporter._
-import dotty.tools.dotc.reporting.StoreReporter
-
-import org.junit.Test
 import org.junit.Assert._
 
-class PhaseTest {
+class PhaseTest(val checkAfterPhase: String) extends DottyTest {
 
-  private def initCtx = (new ContextBase).initialCtx
+  private def compilerWithChecker(phase: String)(assertion: (tpd.Tree, Context) => Unit) = new Compiler {
+    override def phases = {
+      val checker = new Phase{
+        def name = "assertionChecker"
+        override def run(implicit ctx: Context): Unit = {
+          assertEquals("Expected no errors.", 0, ctx.reporter.count(ERROR.level))
+          assertion(ctx.compilationUnit.tpdTree, ctx)
+        }
+      }
+      phasesUpTo(phase) ::: List(checker)
+    }
+  }
 
+  def checkAccepted(source: String)(assertion: (tpd.Tree, Context) => Unit): Unit = {
+    val c = compilerWithChecker(checkAfterPhase)(assertion)
+    val run = c.newRun
+    run.compile(source)
+  }
+
+  def checkCompiles(source: String): Unit = checkAccepted(source)((tree, context) => ())
   
-  def checkRejected(checkAfterPhase: String = "frontend", source: String)(errorCheck: Diagnostic => Unit): Unit = {
+  def checkRejected(source: String)(errorChecks: (Diagnostic => Unit)*): Unit = {
+    val initCtx = (new ContextBase).initialCtx
     val c = new Compiler {
       override def phases = phasesUpTo(checkAfterPhase)
     }
-    implicit val ctx: Context = initCtx
-    c.rootContext(ctx)
     val rep = new StoreReporter
-    val run = c.newRunWithReporter(rep)
+    val run = c.newRun(rep)(initCtx)
     run.compile(source)
-    
-    /*
-    implicit val ctx: Context = initCtx
-    c.rootContextWithReporter(Some(rep))(ctx)
-    val run = c.newRun
-    run.compile(source)
-    */
-    println(">>>>>>" + rep.diagnostics)
-    // assertTrue("expected an exception to occur, but there was none", thrown)
-    
+    assertEquals("Number of errors does not match.", errorChecks.size, rep.diagnostics.size)
+    for ((checkFunc, diag) <- errorChecks zip rep.diagnostics) checkFunc(diag)
   }
-  
-  @Test def testBoundsInNewAreChecked = checkRejected("frontend", """
-    object test808542 {
-      def cast[T, U](t: T): U = {
-        val c = new {
-          type S >: T <: U
-        }
-        (t: c.S)
-      }
-    }"""
-  )(err => assertEquals(err.getMessage, "lower bound T does not conform to upper bound U"))
 
+  def checkDoesntCompile(source: String, nErrors: Int) = checkRejected(source)(List.fill(nErrors)((d: Diagnostic) => ()): _*)
 }

@@ -2,17 +2,17 @@ package test.transform
 
 
 import org.junit.{Assert, Test}
-import test.DottyTest
+import test.PhaseTest
 import dotty.tools.dotc.transform.TreeTransforms.{TransformerInfo, TreeTransform, TreeTransformer}
 import dotty.tools.dotc.ast.tpd
 import dotty.tools.dotc.core.Constants.Constant
 import dotty.tools.dotc.core.Contexts.Context
 
 
-class TreeTransformerTest extends DottyTest {
+class TreeTransformerTest extends PhaseTest(checkAfterPhase = "frontend") {
 
   @Test
-  def shouldReturnSameTreeIfUnchanged = checkCompile("frontend", "class A{ val d = 1}") {
+  def shouldReturnSameTreeIfUnchanged = checkAccepted("class A{ val d = 1}") {
     (tree, context) =>
       implicit val ctx = context
       class EmptyTransform(group: TreeTransformer, idx: Int) extends TreeTransform(group, idx) {}
@@ -29,7 +29,7 @@ class TreeTransformerTest extends DottyTest {
   }
 
   @Test
-  def canReplaceConstant = checkCompile("frontend", "class A{ val d = 1}") {
+  def canReplaceConstant = checkAccepted("class A{ val d = 1}") {
     (tree, context) =>
       implicit val ctx = context
       class ConstantTransform(group: TreeTransformer, idx: Int) extends TreeTransform(group, idx) {
@@ -49,7 +49,7 @@ class TreeTransformerTest extends DottyTest {
   }
 
   @Test
-  def canOverwrite = checkCompile("frontend", "class A{ val d = 1}") {
+  def canOverwrite = checkAccepted("class A{ val d = 1}") {
     (tree, context) =>
       implicit val ctx = context
       class Transformation(group: TreeTransformer, idx: Int) extends TreeTransform(group, idx) {
@@ -76,7 +76,7 @@ class TreeTransformerTest extends DottyTest {
   }
 
   @Test
-  def transformationOrder = checkCompile("frontend", "class A{ val d = 1}") {
+  def transformationOrder = checkAccepted("class A{ val d = 1}") {
     (tree, context) =>
       implicit val ctx = context
       class Transformation1(group: TreeTransformer, idx: Int) extends TreeTransform(group, idx) {
@@ -116,7 +116,7 @@ class TreeTransformerTest extends DottyTest {
   }
 
   @Test
-  def invocationCount = checkCompile("frontend", "class A{ val d = 1}") {
+  def invocationCount = checkAccepted("class A{ val d = 1}") {
     (tree, context) =>
       implicit val ctx = context
       var transformed1 = 0
