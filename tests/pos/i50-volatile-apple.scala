@@ -17,6 +17,6 @@ object v {
   
   lazy val a: A = ???
   
-  lazy val x: a.d.t.Eater
+  lazy val x: a.d.t.Eater = ???
   
 }

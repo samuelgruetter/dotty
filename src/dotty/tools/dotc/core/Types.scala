@@ -532,10 +532,13 @@ object Types {
     }
 
     /** Widen type if it is unstable (i.e. an EpxprType, or Termref to unstable symbol */
-    final def widenIfUnstable(implicit ctx: Context): Type = this match {
+    final def widenIfUnstable(implicit ctx: Context): Type = ctx.traceIndented(s"widenIfUnstable($this)", checks, show = true) {
+      
+      this match {
       case tp: ExprType => tp.resultType.widenIfUnstable
       case tp: TermRef if !tp.symbol.isStable => tp.underlying.widenIfUnstable
       case _ => this
+    }
     }
 
     /** Follow aliases until type is no longer an alias type. */

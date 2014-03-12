@@ -352,7 +352,7 @@ object SymDenotations {
       )
 
     /** Is this a denotation of a stable term (or an arbitrary type)? */
-    final def isStable(implicit ctx: Context) = {
+    final def isStable(implicit ctx: Context) = ctx.traceIndented(s"isStable($this)", checks, show = true) {
       val isUnstable =
         (this is UnstableValue) ||
         !ctx.isRealizable(info) && !hasAnnotation(defn.uncheckedStableClass)

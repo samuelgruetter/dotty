@@ -87,6 +87,9 @@ trait TypeOps { this: Context =>
   final def isRealizable(tp: Type): Boolean = /*>|>*/ ctx.traceIndented(s"isRealizable($tp)", checks, show = true) /*<|<*/ {
     tp match {
       case bottom if bottom isRef defn.NothingClass => false
+      case tp: ProtoType =>
+        checks.println(s"isRealizable called for $tp")
+        sys.error("Prototype???")
       case tp: TypeRef =>
         tp.info match {
           case TypeBounds(lo, hi) =>
@@ -108,7 +111,7 @@ trait TypeOps { this: Context =>
         false
       case tp: OrType =>
         isRealizable(tp.tp1) || isRealizable(tp.tp2)
-      case NoType => false
+      //case NoType => false
       case _ =>
         checks.println(s"isRealizable defaulting to false for <<<$tp>>>")
         // TODO make tests for which execution gets here 
