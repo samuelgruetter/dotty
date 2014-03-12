@@ -15,11 +15,13 @@ class StoreReporter extends Reporter {
   private var infos: mutable.ListBuffer[Diagnostic] = null
 
   protected def doReport(d: Diagnostic)(implicit ctx: Context): Unit = {
-    typr.println(s">>>> StoredError: ${d.msg}") // !!! DEBUG
+    println(s">>>> StoredError: ${d.msg}") // !!! DEBUG
     if (infos == null) infos = new mutable.ListBuffer
     infos += d
   }
 
   override def flush()(implicit ctx: Context) =
     if (infos != null) infos foreach ctx.reporter.report
+
+  def diagnostics: Seq[Diagnostic] = infos
 }

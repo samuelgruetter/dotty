@@ -6,7 +6,7 @@ import Contexts._
 import Periods._
 import Symbols._
 import typer.{FrontEnd, Typer, Mode, ImportInfo}
-import reporting.ConsoleReporter
+import reporting._
 import dotty.tools.dotc.core.Phases.Phase
 
 class Compiler {
@@ -38,9 +38,32 @@ class Compiler {
       ctx.fresh.withImportInfo(ImportInfo.rootImport(sym)(ctx))
     (start.withRunInfo(new RunInfo(start)) /: defn.RootImports)(addImport)
   }
+  
+  def rootContextWithReporter(reporter: Reporter)(implicit ctx: Context): Context = {
+    ctx.definitions.init(ctx)
+    ctx.usePhases(phases)
+    val start = ctx.fresh
+      .withPeriod(Period(nextRunId, FirstPhaseId))
+      .withOwner(defn.RootClass)
+      .withTyper(new Typer)
+      .withNewMode(Mode.ImplicitsEnabled)
+      .withTyperState(new MutableTyperState(ctx.typerState, reporter, isCommittable = true))
+    ctx.definitions.init(start)
+    def addImport(ctx: Context, sym: Symbol) =
+      ctx.fresh.withImportInfo(ImportInfo.rootImport(sym)(ctx))
+    (start.withRunInfo(new RunInfo(start)) /: defn.RootImports)(addImport)
+  }
 
   def newRun(implicit ctx: Context): Run = {
     try new Run(this)(rootContext)
+    finally {
+      ctx.base.reset()
+      ctx.runInfo.clear()
+    }
+  }
+  
+  def newRunWithReporter(reporter: Reporter)(implicit ctx: Context): Run = {
+    try new Run(this)(rootContextWithReporter(reporter))
     finally {
       ctx.base.reset()
       ctx.runInfo.clear()
