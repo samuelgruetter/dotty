@@ -3,7 +3,7 @@ package dotty.tools.dotc.config
 object Printers {
 
   class Printer {
-    def println(msg: => String): Unit = System.out.println(msg)
+    def println(msg: => String): Unit = System.err.println(msg)
   }
 
   object noPrinter extends Printer {
@@ -12,7 +12,7 @@ object Printers {
 
   val default: Printer = new Printer
   val core: Printer = noPrinter
-  val typr: Printer = noPrinter
+  val typr: Printer = new Printer
   val constr: Printer = noPrinter
   val checks: Printer = noPrinter
   val overload: Printer = noPrinter

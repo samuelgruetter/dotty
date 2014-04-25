@@ -263,11 +263,11 @@ class Typer extends Namer with TypeAssigner with Applications with Implicits wit
     checkValue(tree.withType(ownType.underlyingIfRepeated), pt)
   }
 
-  def typedSelect(tree: untpd.Select, pt: Type)(implicit ctx: Context): Tree = track("typedSelect") {
+  def typedSelect(tree: untpd.Select, pt: Type)(implicit ctx: Context): Tree = track("typedSelect") { ctx.traceIndented(s"typedSelect of $tree", typr, show = false){
     val qual1 = typedExpr(tree.qualifier, selectionProto(tree.name, pt, this))
     if (tree.name.isTypeName) checkStable(qual1.tpe, qual1.pos)
     checkValue(assignType(cpy.Select(tree, qual1, tree.name), qual1), pt)
-  }
+  }}
 
   def typedSelectFromTypeTree(tree: untpd.SelectFromTypeTree, pt: Type)(implicit ctx: Context): SelectFromTypeTree = track("typedSelectFromTypeTree") {
     val qual1 = typedType(tree.qualifier, selectionProto(tree.name, pt, this))

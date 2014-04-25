@@ -1,12 +1,14 @@
 package dotty.tools.dotc.config
 
 object Config {
+  
+  private final val myBool = false
 
-  final val cacheMembersNamed = true
-  final val cacheAsSeenFrom = true
-  final val useFingerPrints = true
-  final val cacheMemberNames = true
-  final val cacheImplicitScopes = true
+  final val cacheMembersNamed = myBool
+  final val cacheAsSeenFrom = myBool
+  final val useFingerPrints = myBool
+  final val cacheMemberNames = myBool
+  final val cacheImplicitScopes = myBool
 
   final val checkCacheMembersNamed = false
 

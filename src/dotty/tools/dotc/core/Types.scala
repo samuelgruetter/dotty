@@ -261,11 +261,11 @@ object Types {
     }
 
     /** The term symbol associated with the type */
-    final def termSymbol(implicit ctx: Context): Symbol = this match {
+    final def termSymbol(implicit ctx: Context): Symbol = ctx.traceIndented(s"termSymbol of $this", typr, show=false){ this match {
       case tp: TermRef => tp.symbol
       case tp: TypeProxy => tp.underlying.termSymbol
       case _ => NoSymbol
-    }
+    }}
 
     /** The base classes of this type as determined by ClassDenotation
      *  in linearization order, with the class itself as first element.
@@ -345,7 +345,8 @@ object Types {
      *  flags in `excluded` from consideration.
      */
     final def findMember(name: Name, pre: Type, excluded: FlagSet)(implicit ctx: Context): Denotation = try {
-      @tailrec def go(tp: Type): Denotation = tp match {
+      //@tailrec def go(tp: Type): Denotation = tp match {
+      def go(tp: Type): Denotation = ctx.traceIndented(s"find member $name in $tp", typr, show = false) { tp match {
         case tp: RefinedType =>
           if (name eq tp.refinedName) goRefined(tp) else go(tp.parent)
         case tp: ThisType =>
@@ -370,7 +371,7 @@ object Types {
           ctx.newErrorSymbol(pre.classSymbol orElse defn.RootClass, name)
         case _ =>
           NoDenotation
-      }
+      }}
       def goRefined(tp: RefinedType) = {
         val pdenot = go(tp.parent)
         val rinfo = tp.refinedInfo.substThis(tp, pre)
@@ -890,7 +891,7 @@ object Types {
      *  Subclasses should only override this method if they're sure that they
      *  don't cause infinite recursion.
      */
-    override def toString: String = this.getClass.getName + "(...)"
+    override def toString: String = this.getClass.getSimpleName + "@" + System.identityHashCode(this)
   } // end Type
 
 // ----- Type categories ----------------------------------------------
@@ -1010,6 +1011,19 @@ object Types {
     type ThisType >: this.type <: NamedType
 
     assert(prefix.isValueType || (prefix eq NoPrefix), s"invalid prefix $prefix")
+    
+    /** Length of the prefix, useful for debugging "infinite" paths. */
+    def prefixLength: Int = {
+      var pr: Type = prefix
+      var len: Int = 1
+      // while loop instead of recursion to avoid stack overflow
+      while (pr.isInstanceOf[NamedType]) {
+        len += 1
+        pr = pr.asInstanceOf[NamedType].prefix
+      }
+      //if (len > 10) sys.error("very long prefix, that's probably a bug")
+      len
+    }    
 
     private[this] var lastDenotation: Denotation = _
     private[this] var lastSymbol: Symbol = _
@@ -1201,7 +1215,7 @@ object Types {
     type ThisType = TermRef
 
     //assert(name.toString != "<local Coder>")
-    override def underlying(implicit ctx: Context): Type = {
+    override def underlying(implicit ctx: Context): Type = ctx.traceIndented(s"${this}.underlying", typr, show = false){
       val d = denot
       if (d.isOverloaded) NoType else d.info
     }
@@ -1224,11 +1238,36 @@ object Types {
 
     type ThisType = TypeRef
 
-    override def underlying(implicit ctx: Context): Type = info
+    override def underlying(implicit ctx: Context): Type = ctx.traceIndented(s"${this}.underlying", typr, show = false){ info }
+  }
+  
+  var bCount: Int = 0
+  def update(tested: String): Unit = {
+    if (tested == "b") {
+      bCount += 1
+      if (bCount > 500) sys.error("inf recursion")
+    }
+  }
+  
+  var c2: Int = 0
+  def stackTr: Unit = {
+    c2 += 1
+    if (c2 == 50) {
+      try {
+        throw new Exception("yo")
+      } catch {
+        case e: Exception => e.printStackTrace(System.err)
+      }
+    }
   }
 
   final class TermRefWithSignature(prefix: Type, name: TermName, override val sig: Signature) extends TermRef(prefix, name) {
     assert(prefix ne NoPrefix)
+    //System.err.println(s"creating TermRefWithSignature with prefix of length ${this.prefixLength}")
+    if (prefixLength > 10) sys.error("very long prefix, that's probably a bug")
+    //System.err.println(s"creating ${this.toString2}")
+    //stackTr
+    
     override def signature(implicit ctx: Context) = sig
     override def loadDenot(implicit ctx: Context): Denotation = {
       val d = super.loadDenot
@@ -1245,9 +1284,26 @@ object Types {
       }
       else TermRef.withSig(prefix, name, sig)
     }
-
+    
+    override def toString = s"$prefixLength-prefix.$name"
+    
+    def safeToString: String = f"${System.identityHashCode(this)}%12d.${this.name} with sig: $sig"
+/*
+    def toString2: String = (prefix match {
+      case p: TermRefWithSignature => p.toString2
+      case other => other.toString
+    }) + "." + name.toString
+  */  
+    //override def toString = toString2
+    
     override def equals(that: Any) = that match {
       case that: TermRefWithSignature =>
+        implicit val ctx: Context = Context.theBase.initialCtx
+        //System.err.println(s"comparing (${this.safeToString}) and (${that.safeToString})")
+        //System.err.println(s"comparing (${this.toString2}) and (${that.toString2})")
+        //update(this.name.toString)
+        //System.err.println(i"comparing $this and $that")
+        System.err.println(s"comparing len ${this.prefixLength} and len ${that.prefixLength}")
         this.prefix == that.prefix &&
         this.name == that.name &&
         this.sig == that.sig
@@ -1333,8 +1389,9 @@ object Types {
     def withSig(prefix: Type, sym: TermSymbol)(implicit ctx: Context): TermRef =
       unique(withSig(prefix, sym.name, sym.signature).withSym(sym, sym.signature))
 
-    def withSig(prefix: Type, name: TermName, sig: Signature)(implicit ctx: Context): TermRef =
+    def withSig(prefix: Type, name: TermName, sig: Signature)(implicit ctx: Context): TermRef = ctx.traceIndented("creating TermRefWithSignature", typr, show=false){
       unique(new TermRefWithSignature(prefix, name, sig))
+    }
 
     def withSig(prefix: Type, name: TermName, sig: Signature, denot: Denotation)(implicit ctx: Context): TermRef =
       (if (prefix eq NoPrefix) apply(prefix, denot.symbol.asTerm)
@@ -1363,7 +1420,7 @@ object Types {
 
   /** The type cls.this */
   abstract case class ThisType(cls: ClassSymbol) extends CachedProxyType with SingletonType {
-    override def underlying(implicit ctx: Context) = cls.classInfo.selfType
+    override def underlying(implicit ctx: Context) = ctx.traceIndented(s"${this}.underlying", typr, show = false){cls.classInfo.selfType}
     override def computeHash = doHash(cls)
   }
 
@@ -1380,7 +1437,7 @@ object Types {
    *  by `super`.
    */
   abstract case class SuperType(thistpe: Type, supertpe: Type) extends CachedProxyType with SingletonType {
-    override def underlying(implicit ctx: Context) = supertpe
+    override def underlying(implicit ctx: Context) = ctx.traceIndented(s"${this}.underlying", typr, show = false){supertpe}
     def derivedSuperType(thistpe: Type, supertpe: Type)(implicit ctx: Context) =
       if ((thistpe eq this.thistpe) && (supertpe eq this.supertpe)) this
       else SuperType(thistpe, supertpe)
@@ -1419,7 +1476,7 @@ object Types {
 
     val refinedInfo: Type
 
-    override def underlying(implicit ctx: Context) = parent
+    override def underlying(implicit ctx: Context) = ctx.traceIndented(s"${this}.underlying", typr, show = false){parent}
 
     /** Derived refined type, with a twist: A refinement with a higher-kinded type param placeholder
      *  is transformed to a refinement of the original type parameter if that one exists.
@@ -1696,7 +1753,7 @@ object Types {
 
   abstract case class ExprType(override val resultType: Type)
   extends CachedProxyType with TermType with SignedType {
-    override def underlying(implicit ctx: Context): Type = resultType
+    override def underlying(implicit ctx: Context): Type = ctx.traceIndented(s"${this}.underlying", typr, show = false){ resultType }
     protected def computeSignature(implicit ctx: Context): Signature = resultSignature
     def derivedExprType(resultType: Type)(implicit ctx: Context) =
       if (resultType eq this.resultType) this else ExprType(resultType)
@@ -1812,7 +1869,7 @@ object Types {
 
   case class RefinedThis(binder: RefinedType) extends BoundType with SingletonType {
     type BT = RefinedType
-    override def underlying(implicit ctx: Context) = binder.parent
+    override def underlying(implicit ctx: Context) = ctx.traceIndented(s"${this}.underlying", typr, show = false){ binder.parent}
     def copyBoundType(bt: BT) = RefinedThis(bt)
 
     // need to customize hashCode and equals to prevent infinite recursion for
@@ -2034,7 +2091,13 @@ object Types {
 
     def variance: Int = 0
 
-    override def underlying(implicit ctx: Context): Type = hi
+    override def underlying(implicit ctx: Context): Type = ctx.traceIndented(s"${this}.underlying", typr, show = false){ 
+      /*hi match {
+        case h: NamedType => h.prefixLength
+        case _ =>
+      }*/
+      hi
+    }
 
     def derivedTypeBounds(lo: Type, hi: Type, variance: Int = this.variance)(implicit ctx: Context) =
       if ((lo eq this.lo) && (hi eq this.hi) && (variance == this.variance)) this
