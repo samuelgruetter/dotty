@@ -881,6 +881,16 @@ object Types {
      *  compute hash and use it as the type's hashCode.
      */
     def hash: Int
+
+    /** Some types have cyclic references, so the case-class-generated toString
+     *  might cause infinite recursion. That's why you should use Showable.show
+     *  or the i string interpolator instead of toString.
+     *  This default toString is to prevent infinite recursion if someone still
+     *  uses toString by accident.
+     *  Subclasses should only override this method if they're sure that they
+     *  don't cause infinite recursion.
+     */
+    override def toString: String = this.getClass.getName + "(...)"
   } // end Type
 
 // ----- Type categories ----------------------------------------------
