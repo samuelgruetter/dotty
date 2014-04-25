@@ -1,0 +1,817 @@
+
+[error] [log frontend]     ==> typing val m1: a.x.M = ????
+[error] [log frontend]       ==> typing a.x.M?
+[error] [log frontend]         ==> typedSelect of Select(Select(Ident(a),x),M)?
+[error] [log frontend]           ==> typing a.x?
+[error] [log frontend]             ==> typedSelect of Select(Ident(a),x)?
+[error] [log frontend]               ==> typing a?
+[error] [log frontend]                 ==> find member a in CachedThisType@362634484?
+[error] [log frontend]                   ==> CachedThisType@362634484.underlying?
+[error] [log frontend]                   <== CachedThisType@362634484.underlying = 1-prefix.infpaths
+[error] [log frontend]                   ==> find member a in 1-prefix.infpaths?
+[error] [log frontend]                     ==> 1-prefix.infpaths.underlying?
+[error] [log frontend]                     <== 1-prefix.infpaths.underlying = CachedTypeRef@1229765968
+[error] [log frontend]                     ==> find member a in CachedTypeRef@1229765968?
+[error] [log frontend]                     <== find member a in CachedTypeRef@1229765968 = module a
+[error] [log frontend]                   <== find member a in 1-prefix.infpaths = module a
+[error] [log frontend]                 <== find member a in CachedThisType@362634484 = module a
+[error] [log frontend]                 ==> creating TermRefWithSignature?
+[error] [log frontend]                 <== creating TermRefWithSignature = 1-prefix.a
+[error] [log frontend]                 ==> 1-prefix.a.underlying?
+[error] [log frontend]                 <== 1-prefix.a.underlying = CachedTypeRef@261670070
+[error] [log frontend]                 ==> adapting infpaths.a of type infpaths.a$.type to ?{x: ?}?
+[error] [log frontend]                   ==> 1-prefix.a.underlying?
+[error] [log frontend]                   <== 1-prefix.a.underlying = CachedTypeRef@261670070
+[error] [log frontend]                   ==> find member x in 1-prefix.a?
+[error] [log frontend]                     ==> 1-prefix.a.underlying?
+[error] [log frontend]                     <== 1-prefix.a.underlying = CachedTypeRef@261670070
+[error] [log frontend]                     ==> find member x in CachedTypeRef@261670070?
+[error] [log frontend]                     <== find member x in CachedTypeRef@261670070 = val x
+[error] [log frontend]                   <== find member x in 1-prefix.a = val x
+[error] [log frontend]                 ==> 1-prefix.a.underlying?
+[error] [log frontend]                 <== 1-prefix.a.underlying = CachedTypeRef@261670070
+[error] [log frontend]                 <== adapting infpaths.a of type infpaths.a$.type to ?{x: ?} = infpaths.a
+[error] [log frontend]               <== typing infpaths.a = infpaths.a
+[error] [log frontend]               ==> find member x in 1-prefix.a?
+[error] [log frontend]                 ==> 1-prefix.a.underlying?
+[error] [log frontend]                 <== 1-prefix.a.underlying = CachedTypeRef@261670070
+[error] [log frontend]                 ==> find member x in CachedTypeRef@261670070?
+[error] [log frontend]                 <== find member x in CachedTypeRef@261670070 = val x
+[error] [log frontend]               <== find member x in 1-prefix.a = val x
+[error] [log frontend]               ==> creating TermRefWithSignature?
+[error] [log frontend]               <== creating TermRefWithSignature = 2-prefix.x
+[error] [log frontend]             <== typedSelect of Select(Ident(a),x) = Select(Ident(a),x)
+[error] [log frontend]             ==> 2-prefix.x.underlying?
+[error] [log frontend]             <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]             ==> adapting infpaths.a.x of type infpaths.a.T(infpaths.a.x) to ?{M: ?}?
+[error] [log frontend]               ==> 2-prefix.x.underlying?
+[error] [log frontend]               <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]               ==> find member M in 2-prefix.x?
+[error] [log frontend]                 ==> 2-prefix.x.underlying?
+[error] [log frontend]                 <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]                 ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                   ==> 2-prefix.x.underlying?
+[error] [log frontend]                   <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]                   ==> creating TermRefWithSignature?
+[error] [log frontend]                   <== creating TermRefWithSignature = 3-prefix.b
+[error] [log frontend]                 <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)>
+[error] [log frontend]               <== find member M in 2-prefix.x = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)>
+[error] [log frontend]             ==> 2-prefix.x.underlying?
+[error] [log frontend]             <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]             <== adapting infpaths.a.x of type infpaths.a.T(infpaths.a.x) to ?{M: ?} = infpaths.a.x
+[error] [log frontend]           <== typing infpaths.a.x = infpaths.a.x
+[error] [log frontend]           ==> termSymbol of 2-prefix.x?
+[error] [log frontend]           <== termSymbol of 2-prefix.x = val x
+[error] [log frontend]           ==> find member M in 2-prefix.x?
+[error] [log frontend]             ==> 2-prefix.x.underlying?
+[error] [log frontend]             <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]             ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]               ==> creating TermRefWithSignature?
+[error] [log frontend]               <== creating TermRefWithSignature = 3-prefix.b
+[error] [log frontend]             <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)>
+[error] [log frontend]           <== find member M in 2-prefix.x = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)>
+[error] [log frontend]           ==> termSymbol of CachedTypeRef@1134128170?
+[error] [log frontend]             ==> CachedTypeRef@1134128170.underlying?
+[error] [log frontend]             <== CachedTypeRef@1134128170.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)
+[error] [log frontend]             ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223)?
+[error] [log frontend]               ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223).underlying?
+[error] [log frontend]               <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223).underlying = CachedTypeRef@965138223
+[error] [log frontend]               ==> termSymbol of CachedTypeRef@965138223?
+[error] [log frontend]                 ==> CachedTypeRef@965138223.underlying?
+[error] [log frontend]                   ==> find member b in 2-prefix.x?
+[error] [log frontend]                     ==> 2-prefix.x.underlying?
+[error] [log frontend]                     <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]                     ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                     <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@227302418>
+[error] [log frontend]                   <== find member b in 2-prefix.x = <SingleDenotation of type CachedTypeRef@227302418>
+[error] [log frontend]                   ==> find member M in 3-prefix.b?
+[error] [log frontend]                     ==> 3-prefix.b.underlying?
+[error] [log frontend]                     <== 3-prefix.b.underlying = CachedTypeRef@227302418
+[error] [log frontend]                     ==> find member M in CachedTypeRef@227302418?
+[error] [log frontend]                       ==> find member T in 2-prefix.x?
+[error] [log frontend]                         ==> 2-prefix.x.underlying?
+[error] [log frontend]                         <== 2-prefix.x.underlying = CachedTypeRef@1835556608
+[error] [log frontend]                         ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                         <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                       <== find member T in 2-prefix.x = type T
+[error] [log frontend]                       ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                         ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                         <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                         ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                           ==> 3-prefix.b.underlying?
+[error] [log frontend]                           <== 3-prefix.b.underlying = CachedTypeRef@227302418
+[error] [log frontend]                           ==> CachedTypeRef@227302418.underlying?
+[error] [log frontend]                           <== CachedTypeRef@227302418.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                           ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                           <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                           ==> creating TermRefWithSignature?
+[error] [log frontend]                           <== creating TermRefWithSignature = 4-prefix.b
+[error] [log frontend]                         <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)>
+[error] [log frontend]                       <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)>
+[error] [log frontend]                     <== find member M in CachedTypeRef@227302418 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)>
+[error] [log frontend]                   <== find member M in 3-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)>
+[error] [log frontend]                 <== CachedTypeRef@965138223.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)
+[error] [log frontend]                 ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960)?
+[error] [log frontend]                   ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960).underlying?
+[error] [log frontend]                   <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960).underlying = CachedTypeRef@2045814960
+[error] [log frontend]                   ==> termSymbol of CachedTypeRef@2045814960?
+[error] [log frontend]                     ==> CachedTypeRef@2045814960.underlying?
+[error] [log frontend]                       ==> find member b in 3-prefix.b?
+[error] [log frontend]                         ==> 3-prefix.b.underlying?
+[error] [log frontend]                         <== 3-prefix.b.underlying = CachedTypeRef@227302418
+[error] [log frontend]                         ==> find member b in CachedTypeRef@227302418?
+[error] [log frontend]                           ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                             ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                             <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                             ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                             <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@651360603>
+[error] [log frontend]                           <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@651360603>
+[error] [log frontend]                         <== find member b in CachedTypeRef@227302418 = <SingleDenotation of type CachedTypeRef@651360603>
+[error] [log frontend]                       <== find member b in 3-prefix.b = <SingleDenotation of type CachedTypeRef@651360603>
+[error] [log frontend]                       ==> find member M in 4-prefix.b?
+[error] [log frontend]                         ==> 4-prefix.b.underlying?
+[error] [log frontend]                         <== 4-prefix.b.underlying = CachedTypeRef@651360603
+[error] [log frontend]                         ==> find member M in CachedTypeRef@651360603?
+[error] [log frontend]                           ==> find member T in 3-prefix.b?
+[error] [log frontend]                             ==> 3-prefix.b.underlying?
+[error] [log frontend]                             <== 3-prefix.b.underlying = CachedTypeRef@227302418
+[error] [log frontend]                             ==> find member T in CachedTypeRef@227302418?
+[error] [log frontend]                               ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                 ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                 <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                               <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                             <== find member T in CachedTypeRef@227302418 = type T
+[error] [log frontend]                           <== find member T in 3-prefix.b = type T
+[error] [log frontend]                           ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                             ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                             <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                             ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                               ==> 4-prefix.b.underlying?
+[error] [log frontend]                               <== 4-prefix.b.underlying = CachedTypeRef@651360603
+[error] [log frontend]                               ==> CachedTypeRef@651360603.underlying?
+[error] [log frontend]                               <== CachedTypeRef@651360603.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                               ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                               <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                               ==> creating TermRefWithSignature?
+[error] [log frontend]                               <== creating TermRefWithSignature = 5-prefix.b
+[error] [log frontend]                             <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)>
+[error] [log frontend]                           <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)>
+[error] [log frontend]                         <== find member M in CachedTypeRef@651360603 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)>
+[error] [log frontend]                       <== find member M in 4-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)>
+[error] [log frontend]                     <== CachedTypeRef@2045814960.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)
+[error] [log frontend]                     ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862)?
+[error] [log frontend]                       ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862).underlying?
+[error] [log frontend]                       <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862).underlying = CachedTypeRef@1693505862
+[error] [log frontend]                       ==> termSymbol of CachedTypeRef@1693505862?
+[error] [log frontend]                         ==> CachedTypeRef@1693505862.underlying?
+[error] [log frontend]                           ==> find member b in 4-prefix.b?
+[error] [log frontend]                             ==> 4-prefix.b.underlying?
+[error] [log frontend]                             <== 4-prefix.b.underlying = CachedTypeRef@651360603
+[error] [log frontend]                             ==> find member b in CachedTypeRef@651360603?
+[error] [log frontend]                               ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                 ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                 <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@4765296>
+[error] [log frontend]                               <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@4765296>
+[error] [log frontend]                             <== find member b in CachedTypeRef@651360603 = <SingleDenotation of type CachedTypeRef@4765296>
+[error] [log frontend]                           <== find member b in 4-prefix.b = <SingleDenotation of type CachedTypeRef@4765296>
+[error] [log frontend]                           ==> find member M in 5-prefix.b?
+[error] [log frontend]                             ==> 5-prefix.b.underlying?
+[error] [log frontend]                             <== 5-prefix.b.underlying = CachedTypeRef@4765296
+[error] [log frontend]                             ==> find member M in CachedTypeRef@4765296?
+[error] [log frontend]                               ==> find member T in 4-prefix.b?
+[error] [log frontend]                                 ==> 4-prefix.b.underlying?
+[error] [log frontend]                                 <== 4-prefix.b.underlying = CachedTypeRef@651360603
+[error] [log frontend]                                 ==> find member T in CachedTypeRef@651360603?
+[error] [log frontend]                                   ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                     ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                     <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                   <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                 <== find member T in CachedTypeRef@651360603 = type T
+[error] [log frontend]                               <== find member T in 4-prefix.b = type T
+[error] [log frontend]                               ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                 ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                   ==> 5-prefix.b.underlying?
+[error] [log frontend]                                   <== 5-prefix.b.underlying = CachedTypeRef@4765296
+[error] [log frontend]                                   ==> CachedTypeRef@4765296.underlying?
+[error] [log frontend]                                   <== CachedTypeRef@4765296.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                   ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                   <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                   ==> creating TermRefWithSignature?
+[error] [log frontend]                                   <== creating TermRefWithSignature = 6-prefix.b
+[error] [log frontend]                                 <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)>
+[error] [log frontend]                               <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)>
+[error] [log frontend]                             <== find member M in CachedTypeRef@4765296 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)>
+[error] [log frontend]                           <== find member M in 5-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)>
+[error] [log frontend]                         <== CachedTypeRef@1693505862.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)
+[error] [log frontend]                         ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933)?
+[error] [log frontend]                           ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933).underlying?
+[error] [log frontend]                           <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933).underlying = CachedTypeRef@633434933
+[error] [log frontend]                           ==> termSymbol of CachedTypeRef@633434933?
+[error] [log frontend]                             ==> CachedTypeRef@633434933.underlying?
+[error] [log frontend]                               ==> find member b in 5-prefix.b?
+[error] [log frontend]                                 ==> 5-prefix.b.underlying?
+[error] [log frontend]                                 <== 5-prefix.b.underlying = CachedTypeRef@4765296
+[error] [log frontend]                                 ==> find member b in CachedTypeRef@4765296?
+[error] [log frontend]                                   ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                     ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                     <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@1064480752>
+[error] [log frontend]                                   <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@1064480752>
+[error] [log frontend]                                 <== find member b in CachedTypeRef@4765296 = <SingleDenotation of type CachedTypeRef@1064480752>
+[error] [log frontend]                               <== find member b in 5-prefix.b = <SingleDenotation of type CachedTypeRef@1064480752>
+[error] [log frontend]                               ==> find member M in 6-prefix.b?
+[error] [log frontend]                                 ==> 6-prefix.b.underlying?
+[error] [log frontend]                                 <== 6-prefix.b.underlying = CachedTypeRef@1064480752
+[error] [log frontend]                                 ==> find member M in CachedTypeRef@1064480752?
+[error] [log frontend]                                   ==> find member T in 5-prefix.b?
+[error] [log frontend]                                     ==> 5-prefix.b.underlying?
+[error] [log frontend]                                     <== 5-prefix.b.underlying = CachedTypeRef@4765296
+[error] [log frontend]                                     ==> find member T in CachedTypeRef@4765296?
+[error] [log frontend]                                       ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                         ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                         <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                         ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                         <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                       <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                     <== find member T in CachedTypeRef@4765296 = type T
+[error] [log frontend]                                   <== find member T in 5-prefix.b = type T
+[error] [log frontend]                                   ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                     ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                       ==> 6-prefix.b.underlying?
+[error] [log frontend]                                       <== 6-prefix.b.underlying = CachedTypeRef@1064480752
+[error] [log frontend]                                       ==> CachedTypeRef@1064480752.underlying?
+[error] [log frontend]                                       <== CachedTypeRef@1064480752.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                       ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                       <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                       ==> creating TermRefWithSignature?
+[error] [log frontend]                                       <== creating TermRefWithSignature = 7-prefix.b
+[error] [log frontend]                                     <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)>
+[error] [log frontend]                                   <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)>
+[error] [log frontend]                                 <== find member M in CachedTypeRef@1064480752 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)>
+[error] [log frontend]                               <== find member M in 6-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)>
+[error] [log frontend]                             <== CachedTypeRef@633434933.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)
+[error] [log frontend]                             ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707)?
+[error] [log frontend]                               ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707).underlying?
+[error] [log frontend]                               <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707).underlying = CachedTypeRef@41735707
+[error] [log frontend]                               ==> termSymbol of CachedTypeRef@41735707?
+[error] [log frontend]                                 ==> CachedTypeRef@41735707.underlying?
+[error] [log frontend]                                   ==> find member b in 6-prefix.b?
+[error] [log frontend]                                     ==> 6-prefix.b.underlying?
+[error] [log frontend]                                     <== 6-prefix.b.underlying = CachedTypeRef@1064480752
+[error] [log frontend]                                     ==> find member b in CachedTypeRef@1064480752?
+[error] [log frontend]                                       ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                         ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                         <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                         ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                         <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@1372358627>
+[error] [log frontend]                                       <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@1372358627>
+[error] [log frontend]                                     <== find member b in CachedTypeRef@1064480752 = <SingleDenotation of type CachedTypeRef@1372358627>
+[error] [log frontend]                                   <== find member b in 6-prefix.b = <SingleDenotation of type CachedTypeRef@1372358627>
+[error] [log frontend]                                   ==> find member M in 7-prefix.b?
+[error] [log frontend]                                     ==> 7-prefix.b.underlying?
+[error] [log frontend]                                     <== 7-prefix.b.underlying = CachedTypeRef@1372358627
+[error] [log frontend]                                     ==> find member M in CachedTypeRef@1372358627?
+[error] [log frontend]                                       ==> find member T in 6-prefix.b?
+[error] [log frontend]                                         ==> 6-prefix.b.underlying?
+[error] [log frontend]                                         <== 6-prefix.b.underlying = CachedTypeRef@1064480752
+[error] [log frontend]                                         ==> find member T in CachedTypeRef@1064480752?
+[error] [log frontend]                                           ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                             ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                             <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                             ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                             <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                           <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                         <== find member T in CachedTypeRef@1064480752 = type T
+[error] [log frontend]                                       <== find member T in 6-prefix.b = type T
+[error] [log frontend]                                       ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                         ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                         <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                         ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                           ==> 7-prefix.b.underlying?
+[error] [log frontend]                                           <== 7-prefix.b.underlying = CachedTypeRef@1372358627
+[error] [log frontend]                                           ==> CachedTypeRef@1372358627.underlying?
+[error] [log frontend]                                           <== CachedTypeRef@1372358627.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                           ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                           <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                           ==> creating TermRefWithSignature?
+[error] [log frontend]                                           <== creating TermRefWithSignature = 8-prefix.b
+[error] [log frontend]                                         <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)>
+[error] [log frontend]                                       <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)>
+[error] [log frontend]                                     <== find member M in CachedTypeRef@1372358627 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)>
+[error] [log frontend]                                   <== find member M in 7-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)>
+[error] [log frontend]                                 <== CachedTypeRef@41735707.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)
+[error] [log frontend]                                 ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209)?
+[error] [log frontend]                                   ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209).underlying?
+[error] [log frontend]                                   <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209).underlying = CachedTypeRef@1257075209
+[error] [log frontend]                                   ==> termSymbol of CachedTypeRef@1257075209?
+[error] [log frontend]                                     ==> CachedTypeRef@1257075209.underlying?
+[error] [log frontend]                                       ==> find member b in 7-prefix.b?
+[error] [log frontend]                                         ==> 7-prefix.b.underlying?
+[error] [log frontend]                                         <== 7-prefix.b.underlying = CachedTypeRef@1372358627
+[error] [log frontend]                                         ==> find member b in CachedTypeRef@1372358627?
+[error] [log frontend]                                           ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                             ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                             <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                             ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                             <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@718918477>
+[error] [log frontend]                                           <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@718918477>
+[error] [log frontend]                                         <== find member b in CachedTypeRef@1372358627 = <SingleDenotation of type CachedTypeRef@718918477>
+[error] [log frontend]                                       <== find member b in 7-prefix.b = <SingleDenotation of type CachedTypeRef@718918477>
+[error] [log frontend]                                       ==> find member M in 8-prefix.b?
+[error] [log frontend]                                         ==> 8-prefix.b.underlying?
+[error] [log frontend]                                         <== 8-prefix.b.underlying = CachedTypeRef@718918477
+[error] [log frontend]                                         ==> find member M in CachedTypeRef@718918477?
+[error] [log frontend]                                           ==> find member T in 7-prefix.b?
+[error] [log frontend]                                             ==> 7-prefix.b.underlying?
+[error] [log frontend]                                             <== 7-prefix.b.underlying = CachedTypeRef@1372358627
+[error] [log frontend]                                             ==> find member T in CachedTypeRef@1372358627?
+[error] [log frontend]                                               ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                 ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                                 <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                               <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                             <== find member T in CachedTypeRef@1372358627 = type T
+[error] [log frontend]                                           <== find member T in 7-prefix.b = type T
+[error] [log frontend]                                           ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                             ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                             <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                             ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                               ==> 8-prefix.b.underlying?
+[error] [log frontend]                                               <== 8-prefix.b.underlying = CachedTypeRef@718918477
+[error] [log frontend]                                               ==> CachedTypeRef@718918477.underlying?
+[error] [log frontend]                                               <== CachedTypeRef@718918477.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                               ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                               <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                               ==> creating TermRefWithSignature?
+[error] [log frontend]                                               <== creating TermRefWithSignature = 9-prefix.b
+[error] [log frontend]                                             <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)>
+[error] [log frontend]                                           <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)>
+[error] [log frontend]                                         <== find member M in CachedTypeRef@718918477 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)>
+[error] [log frontend]                                       <== find member M in 8-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)>
+[error] [log frontend]                                     <== CachedTypeRef@1257075209.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)
+[error] [log frontend]                                     ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917)?
+[error] [log frontend]                                       ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917).underlying?
+[error] [log frontend]                                       <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917).underlying = CachedTypeRef@1119844917
+[error] [log frontend]                                       ==> termSymbol of CachedTypeRef@1119844917?
+[error] [log frontend]                                         ==> CachedTypeRef@1119844917.underlying?
+[error] [log frontend]                                           ==> find member b in 8-prefix.b?
+[error] [log frontend]                                             ==> 8-prefix.b.underlying?
+[error] [log frontend]                                             <== 8-prefix.b.underlying = CachedTypeRef@718918477
+[error] [log frontend]                                             ==> find member b in CachedTypeRef@718918477?
+[error] [log frontend]                                               ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                 ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                                 <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@686837711>
+[error] [log frontend]                                               <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@686837711>
+[error] [log frontend]                                             <== find member b in CachedTypeRef@718918477 = <SingleDenotation of type CachedTypeRef@686837711>
+[error] [log frontend]                                           <== find member b in 8-prefix.b = <SingleDenotation of type CachedTypeRef@686837711>
+[error] [log frontend]                                           ==> find member M in 9-prefix.b?
+[error] [log frontend]                                             ==> 9-prefix.b.underlying?
+[error] [log frontend]                                             <== 9-prefix.b.underlying = CachedTypeRef@686837711
+[error] [log frontend]                                             ==> find member M in CachedTypeRef@686837711?
+[error] [log frontend]                                               ==> find member T in 8-prefix.b?
+[error] [log frontend]                                                 ==> 8-prefix.b.underlying?
+[error] [log frontend]                                                 <== 8-prefix.b.underlying = CachedTypeRef@718918477
+[error] [log frontend]                                                 ==> find member T in CachedTypeRef@718918477?
+[error] [log frontend]                                                   ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                     ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                                     <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                                   <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                                 <== find member T in CachedTypeRef@718918477 = type T
+[error] [log frontend]                                               <== find member T in 8-prefix.b = type T
+[error] [log frontend]                                               ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                 ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                 <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                 ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                                   ==> 9-prefix.b.underlying?
+[error] [log frontend]                                                   <== 9-prefix.b.underlying = CachedTypeRef@686837711
+[error] [log frontend]                                                   ==> CachedTypeRef@686837711.underlying?
+[error] [log frontend]                                                   <== CachedTypeRef@686837711.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                                   ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                   <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                   ==> creating TermRefWithSignature?
+[error] [log frontend]                                                   <== creating TermRefWithSignature = 10-prefix.b
+[error] [log frontend]                                                 <== find member M in CachedTypeRef@1835556608 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)>
+[error] [log frontend]                                               <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)>
+[error] [log frontend]                                             <== find member M in CachedTypeRef@686837711 = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)>
+[error] [log frontend]                                           <== find member M in 9-prefix.b = <SingleDenotation of type TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)>
+[error] [log frontend]                                         <== CachedTypeRef@1119844917.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)
+[error] [log frontend]                                         ==> termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152)?
+[error] [log frontend]                                           ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152).underlying?
+[error] [log frontend]                                           <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152).underlying = CachedTypeRef@956806152
+[error] [log frontend]                                           ==> termSymbol of CachedTypeRef@956806152?
+[error] [log frontend]                                             ==> CachedTypeRef@956806152.underlying?
+[error] [log frontend]                                               ==> find member b in 9-prefix.b?
+[error] [log frontend]                                                 ==> 9-prefix.b.underlying?
+[error] [log frontend]                                                 <== 9-prefix.b.underlying = CachedTypeRef@686837711
+[error] [log frontend]                                                 ==> find member b in CachedTypeRef@686837711?
+[error] [log frontend]                                                   ==> find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                     ==> find member b in CachedTypeRef@1835556608?
+[error] [log frontend]                                                     <== find member b in CachedTypeRef@1835556608 = <SingleDenotation of type CachedTypeRef@683447928>
+[error] [log frontend]                                                   <== find member b in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <SingleDenotation of type CachedTypeRef@683447928>
+[error] [log frontend]                                                 <== find member b in CachedTypeRef@686837711 = <SingleDenotation of type CachedTypeRef@683447928>
+[error] [log frontend]                                               <== find member b in 9-prefix.b = <SingleDenotation of type CachedTypeRef@683447928>
+[error] [log frontend]                                               ==> find member M in 10-prefix.b?
+[error] [log frontend]                                                 ==> 10-prefix.b.underlying?
+[error] [log frontend]                                                 <== 10-prefix.b.underlying = CachedTypeRef@683447928
+[error] [log frontend]                                                 ==> find member M in CachedTypeRef@683447928?
+[error] [log frontend]                                                   ==> find member T in 9-prefix.b?
+[error] [log frontend]                                                     ==> 9-prefix.b.underlying?
+[error] [log frontend]                                                     <== 9-prefix.b.underlying = CachedTypeRef@686837711
+[error] [log frontend]                                                     ==> find member T in CachedTypeRef@686837711?
+[error] [log frontend]                                                       ==> find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                         ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                         <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                         ==> find member T in CachedTypeRef@1835556608?
+[error] [log frontend]                                                         <== find member T in CachedTypeRef@1835556608 = type T
+[error] [log frontend]                                                       <== find member T in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = type T
+[error] [log frontend]                                                     <== find member T in CachedTypeRef@686837711 = type T
+[error] [log frontend]                                                   <== find member T in 9-prefix.b = type T
+[error] [log frontend]                                                   ==> find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)?
+[error] [log frontend]                                                     ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                     <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                     ==> find member M in CachedTypeRef@1835556608?
+[error] [log frontend]                                                       ==> 10-prefix.b.underlying?
+[error] [log frontend]                                                       <== 10-prefix.b.underlying = CachedTypeRef@683447928
+[error] [log frontend]                                                       ==> CachedTypeRef@683447928.underlying?
+[error] [log frontend]                                                       <== CachedTypeRef@683447928.underlying = TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608)
+[error] [log frontend]                                                       ==> TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying?
+[error] [log frontend]                                                       <== TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608).underlying = CachedTypeRef@1835556608
+[error] [log frontend]                                                       ==> creating TermRefWithSignature?
+[error] [log frontend]                                                       <== creating TermRefWithSignature = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                                     <== find member M in CachedTypeRef@1835556608 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                                   <== find member M in TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1835556608) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                                 <== find member M in CachedTypeRef@683447928 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                               <== find member M in 10-prefix.b = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                               ==> 10-prefix.b.underlying?
+[error] [log frontend]                                               <== 10-prefix.b.underlying = CachedTypeRef@683447928
+[error] [log frontend]                                               ==> 10-prefix.b.underlying?
+[error] [log frontend]                                               <== 10-prefix.b.underlying = CachedTypeRef@683447928
+[error] [log frontend]                                             <== CachedTypeRef@956806152.underlying = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                           <== termSymbol of CachedTypeRef@956806152 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                         <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@956806152) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                       <== termSymbol of CachedTypeRef@1119844917 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                     <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1119844917) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                   <== termSymbol of CachedTypeRef@1257075209 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                                 <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1257075209) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                               <== termSymbol of CachedTypeRef@41735707 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                             <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@41735707) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                           <== termSymbol of CachedTypeRef@633434933 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                         <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@633434933) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                       <== termSymbol of CachedTypeRef@1693505862 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                     <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@1693505862) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                   <== termSymbol of CachedTypeRef@2045814960 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]                 <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@2045814960) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]               <== termSymbol of CachedTypeRef@965138223 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]             <== termSymbol of TypeBounds(CachedTypeRef@373268515, CachedTypeRef@965138223) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]           <== termSymbol of CachedTypeRef@1134128170 = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]         <== typedSelect of Select(Select(Ident(a),x),M) = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]       <== typing infpaths.a.x.M = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]     <== typing val m1: infpaths.a.x.M = ??? = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend]   <== typing final module class infpaths$()  extends { this: infpaths.type => 
+[error]   module object a extends { 
+[error]     <trait> trait T extends { t => 
+[error]       type M <: t.b.M
+[error]       type T <: infpaths.a.T
+[error]       val b: t.T
+[error]     }
+[error]     val x: infpaths.a.T = ???
+[error]   }
+[error]   val m1: infpaths.a.x.M = ???
+[error]   val m2: a.x.b.M = m1
+[error]   val m3: a.x.b.b.M = m2
+[error] } = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] [log frontend] <== typing package <empty> {
+[error]   module object infpaths extends { 
+[error]     module object a extends { 
+[error]       <trait> trait T extends { t => 
+[error]         type M <: t.b.M
+[error]         type T <: infpaths.a.T
+[error]         val b: t.T
+[error]       }
+[error]       val x: infpaths.a.T = ???
+[error]     }
+[error]     val m1: infpaths.a.x.M = ???
+[error]     val m2: a.x.b.M = m1
+[error]     val m3: a.x.b.b.M = m2
+[error]   }
+[error] } = <missing> (with exception java.lang.RuntimeException: very long prefix, that's probably a bug)
+[error] Exception in thread "main" java.lang.RuntimeException: very long prefix, that's probably a bug
+[error] 	at scala.sys.package$.error(package.scala:27)
+[error] 	at dotty.tools.dotc.core.Types$TermRefWithSignature.<init>(Types.scala:1267)
+[error] 	at dotty.tools.dotc.core.Types$TermRef$$anonfun$withSig$2.apply(Types.scala:1393)
+[error] 	at dotty.tools.dotc.core.Types$TermRef$$anonfun$withSig$2.apply(Types.scala:1393)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$TermRef$.withSig(Types.scala:1392)
+[error] 	at dotty.tools.dotc.core.Types$TermRefWithSignature.newLikeThis(Types.scala:1285)
+[error] 	at dotty.tools.dotc.core.Types$TermRefWithSignature.newLikeThis(Types.scala:1264)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.derivedSelect(Types.scala:1190)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:32)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:28)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.conditionalTraceIndented(Reporter.scala:144)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.conditionalTraceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.TypeOps$class.asSeenFrom(TypeOps.scala:27)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.asSeenFrom(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:32)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:28)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.conditionalTraceIndented(Reporter.scala:144)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.conditionalTraceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.TypeOps$class.asSeenFrom(TypeOps.scala:27)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.asSeenFrom(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.TypeOps$AsSeenFromMap.apply(TypeOps.scala:52)
+[error] 	at dotty.tools.dotc.core.Types$TypeMap.mapOverBounds$1(Types.scala:2372)
+[error] 	at dotty.tools.dotc.core.Types$TypeMap.mapOver(Types.scala:2375)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:46)
+[error] 	at dotty.tools.dotc.core.TypeOps$$anonfun$asSeenFrom$2.apply(TypeOps.scala:28)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.conditionalTraceIndented(Reporter.scala:144)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.conditionalTraceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.TypeOps$class.asSeenFrom(TypeOps.scala:27)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.asSeenFrom(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$asSeenFrom$1.apply(Types.scala:471)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$asSeenFrom$1.apply(Types.scala:470)
+[error] 	at dotty.tools.dotc.util.Stats$.track(Stats.scala:35)
+[error] 	at dotty.tools.dotc.core.Types$Type.asSeenFrom(Types.scala:469)
+[error] 	at dotty.tools.dotc.core.Denotations$SingleDenotation.computeAsSeenFrom(Denotations.scala:643)
+[error] 	at dotty.tools.dotc.core.Denotations$SingleDenotation.computeAsSeenFrom(Denotations.scala:371)
+[error] 	at dotty.tools.dotc.core.Denotations$PreDenotation$class.asSeenFrom(Denotations.scala:756)
+[error] 	at dotty.tools.dotc.core.Denotations$SingleDenotation.asSeenFrom(Denotations.scala:371)
+[error] 	at dotty.tools.dotc.core.SymDenotations$ClassDenotation.findMember(SymDenotations.scala:1121)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:355)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:349)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.dotty$tools$dotc$core$Types$Type$$go$1(Types.scala:349)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:363)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:349)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.dotty$tools$dotc$core$Types$Type$$go$1(Types.scala:349)
+[error] 	at dotty.tools.dotc.core.Types$Type.findMember(Types.scala:400)
+[error] 	at dotty.tools.dotc.core.Denotations$Denotation.findMember(Denotations.scala:163)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:355)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:349)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.dotty$tools$dotc$core$Types$Type$$go$1(Types.scala:349)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:357)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$dotty$tools$dotc$core$Types$Type$$go$1$2.apply(Types.scala:349)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.dotty$tools$dotc$core$Types$Type$$go$1(Types.scala:349)
+[error] 	at dotty.tools.dotc.core.Types$Type.findMember(Types.scala:400)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$member$1.apply(Types.scala:334)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$member$1.apply(Types.scala:334)
+[error] 	at dotty.tools.dotc.util.Stats$.track(Stats.scala:35)
+[error] 	at dotty.tools.dotc.core.Types$Type.member(Types.scala:333)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.loadDenot(Types.scala:1137)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.computeDenot(Types.scala:1061)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.denotAt(Types.scala:1053)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.denot(Types.scala:1041)
+[error] 	at dotty.tools.dotc.core.Types$NamedType.info(Types.scala:1154)
+[error] 	at dotty.tools.dotc.core.Types$TypeRef$$anonfun$underlying$4.apply(Types.scala:1241)
+[error] 	at dotty.tools.dotc.core.Types$TypeRef$$anonfun$underlying$4.apply(Types.scala:1241)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$TypeRef.underlying(Types.scala:1241)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:266)
+[error] 	at dotty.tools.dotc.core.Types$Type$$anonfun$termSymbol$2.apply(Types.scala:264)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.core.Types$Type.termSymbol(Types.scala:264)
+[error] 	at dotty.tools.dotc.typer.Checking$class.checkValue(Checking.scala:29)
+[error] 	at dotty.tools.dotc.typer.Typer.checkValue(Typer.scala:51)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedSelect$1$$anonfun$apply$3.apply(Typer.scala:269)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedSelect$1$$anonfun$apply$3.apply(Typer.scala:266)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedSelect$1.apply(Typer.scala:266)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedSelect$1.apply(Typer.scala:266)
+[error] 	at dotty.tools.dotc.util.Stats$.track(Stats.scala:35)
+[error] 	at dotty.tools.dotc.typer.Typer.typedSelect(Typer.scala:266)
+[error] 	at dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:907)
+[error] 	at dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:962)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:971)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:969)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.typer.Typer.typed(Typer.scala:969)
+[error] 	at dotty.tools.dotc.typer.Namer.typedAheadImpl(Namer.scala:486)
+[error] 	at dotty.tools.dotc.typer.Namer.typedAheadType(Namer.scala:493)
+[error] 	at dotty.tools.dotc.typer.Namer.valOrDefDefSig(Namer.scala:596)
+[error] 	at dotty.tools.dotc.typer.Namer$Completer.typeSig(Namer.scala:388)
+[error] 	at dotty.tools.dotc.typer.Namer$Completer.completeInCreationContext(Namer.scala:411)
+[error] 	at dotty.tools.dotc.typer.Namer$Completer.complete(Namer.scala:408)
+[error] 	at dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:150)
+[error] 	at dotty.tools.dotc.core.SymDenotations$SymDenotation.info(SymDenotations.scala:132)
+[error] 	at dotty.tools.dotc.core.SymDenotations$SymDenotation.ensureCompleted(SymDenotations.scala:230)
+[error] 	at dotty.tools.dotc.typer.Typer.retrieveSym(Typer.scala:879)
+[error] 	at dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:904)
+[error] 	at dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:962)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:971)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:969)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.typer.Typer.typed(Typer.scala:969)
+[error] 	at dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:993)
+[error] 	at dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:1005)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedClassDef$1.apply(Typer.scala:825)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedClassDef$1.apply(Typer.scala:797)
+[error] 	at dotty.tools.dotc.util.Stats$.track(Stats.scala:35)
+[error] 	at dotty.tools.dotc.typer.Typer.typedClassDef(Typer.scala:797)
+[error] 	at dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:917)
+[error] 	at dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:962)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:971)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:969)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.typer.Typer.typed(Typer.scala:969)
+[error] 	at dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:993)
+[error] 	at dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:1005)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedPackageDef$1.apply(Typer.scala:858)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typedPackageDef$1.apply(Typer.scala:849)
+[error] 	at dotty.tools.dotc.util.Stats$.track(Stats.scala:35)
+[error] 	at dotty.tools.dotc.typer.Typer.typedPackageDef(Typer.scala:849)
+[error] 	at dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:953)
+[error] 	at dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:964)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:971)
+[error] 	at dotty.tools.dotc.typer.Typer$$anonfun$typed$2.apply(Typer.scala:969)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:168)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.reporting.Reporting$class.traceIndented(Reporter.scala:152)
+[error] 	at dotty.tools.dotc.core.Contexts$Context.traceIndented(Contexts.scala:50)
+[error] 	at dotty.tools.dotc.typer.Typer.typed(Typer.scala:969)
+[error] 	at dotty.tools.dotc.typer.Typer.typedExpr(Typer.scala:1009)
+[error] 	at dotty.tools.dotc.typer.FrontEnd$$anonfun$typeCheck$1.apply$mcV$sp(FrontEnd.scala:37)
+[error] 	at dotty.tools.dotc.typer.FrontEnd.monitor(FrontEnd.scala:16)
+[error] 	at dotty.tools.dotc.typer.FrontEnd.typeCheck(FrontEnd.scala:35)
+[error] 	at dotty.tools.dotc.typer.FrontEnd$$anonfun$runOn$3.apply(FrontEnd.scala:48)
+[error] 	at dotty.tools.dotc.typer.FrontEnd$$anonfun$runOn$3.apply(FrontEnd.scala:48)
+[error] 	at scala.collection.immutable.List.foreach(List.scala:383)
+[error] 	at dotty.tools.dotc.typer.FrontEnd.runOn(FrontEnd.scala:48)
+[error] 	at dotty.tools.dotc.Run$$anonfun$compileSources$1$$anonfun$apply$mcV$sp$3.apply(Run.scala:42)
+[error] 	at dotty.tools.dotc.Run$$anonfun$compileSources$1$$anonfun$apply$mcV$sp$3.apply(Run.scala:40)
+[error] 	at scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)
+[error] 	at scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:186)
+[error] 	at dotty.tools.dotc.Run$$anonfun$compileSources$1.apply$mcV$sp(Run.scala:40)
+[error] 	at dotty.tools.dotc.Run$$anonfun$compileSources$1.apply(Run.scala:32)
+[error] 	at dotty.tools.dotc.Run$$anonfun$compileSources$1.apply(Run.scala:32)
+[error] 	at dotty.tools.dotc.util.Stats$.monitorHeartBeat(Stats.scala:68)
+[error] 	at dotty.tools.dotc.Run.compileSources(Run.scala:31)
+[error] 	at dotty.tools.dotc.Run.compile(Run.scala:28)
+[error] 	at dotty.tools.dotc.Driver.doCompile(Driver.scala:19)
+[error] 	at dotty.tools.dotc.Main$.doCompile(Main.scala:28)
+[error] 	at dotty.tools.dotc.Driver.process(Driver.scala:30)
+[error] 	at dotty.tools.dotc.Driver.main(Driver.scala:44)
+[error] 	at dotty.tools.dotc.Main.main(Main.scala)
