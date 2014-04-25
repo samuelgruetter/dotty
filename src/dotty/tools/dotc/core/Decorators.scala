@@ -147,21 +147,18 @@ object Decorators {
     def i(args: Any*)(implicit ctx: Context): String = {
 
       def treatArg(arg: Any, suffix: String): (Any, String) = arg match {
-        case arg: Traversable[_] if arg.hasDefiniteSize =>
-          if (suffix.nonEmpty && suffix.head == '%') {
-            val (rawsep, rest) = suffix.tail.span(_ != '%')
-            val sep = StringContext.treatEscapes(rawsep)
-            if (rest.nonEmpty) (arg map treatSingleArg mkString sep, rest.tail)
-            else (arg map treatSingleArg, suffix)
-          } else {
-            (arg map treatSingleArg, suffix)
-          }
+        case arg: Seq[_] if suffix.nonEmpty && suffix.head == '%' =>
+          val (rawsep, rest) = suffix.tail.span(_ != '%')
+          val sep = StringContext.treatEscapes(rawsep)
+          if (rest.nonEmpty) (arg map treatArgWithoutListFormatting mkString sep, rest.tail)
+          else (arg, suffix)
         case _ =>
-          (treatSingleArg(arg), suffix)
+          (treatArgWithoutListFormatting(arg), suffix)
       }
 
-      def treatSingleArg(arg: Any) : Any = arg match {
+      def treatArgWithoutListFormatting(arg: Any): Any = arg match {
         case arg: Showable => arg.show
+        case arg: Traversable[_] if arg.hasDefiniteSize => arg map treatArgWithoutListFormatting
         case _ => arg
       }
 
