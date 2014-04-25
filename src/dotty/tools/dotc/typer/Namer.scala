@@ -470,7 +470,7 @@ class Namer { typer: Typer =>
 
       val parentTypes = ensureFirstIsClass(parents map checkedParentType)
       val parentRefs = ctx.normalizeToClassRefs(parentTypes, cls, decls)
-      typr.println(s"completing $denot, parents = $parents, parentTypes = $parentTypes, parentRefs = $parentRefs")
+      typr.println(i"completing $denot, parents = $parents, parentTypes = $parentTypes, parentRefs = $parentRefs")
 
       index(rest)(inClassContext(selfInfo))
       denot.info = ClassInfo(cls.owner.thisType, cls, parentRefs, decls, selfInfo)

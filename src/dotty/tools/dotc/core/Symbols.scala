@@ -354,8 +354,8 @@ object Symbols {
     final def isType(implicit ctx: Context): Boolean = denot.isType
     final def isClass: Boolean = isInstanceOf[ClassSymbol]
 
-    final def asTerm(implicit ctx: Context): TermSymbol = { assert(isTerm, s"asTerm called on not-a-Term $this" ); asInstanceOf[TermSymbol] }
-    final def asType(implicit ctx: Context): TypeSymbol = { assert(isType, s"isType called on not-a-Type $this"); asInstanceOf[TypeSymbol] }
+    final def asTerm(implicit ctx: Context): TermSymbol = { assert(isTerm, i"asTerm called on not-a-Term $this" ); asInstanceOf[TermSymbol] }
+    final def asType(implicit ctx: Context): TypeSymbol = { assert(isType, i"isType called on not-a-Type $this"); asInstanceOf[TypeSymbol] }
     final def asClass: ClassSymbol = asInstanceOf[ClassSymbol]
 
     /** A unique, densely packed integer tag for each class symbol, -1
@@ -366,7 +366,7 @@ object Symbols {
 
     /** This symbol entered into owner's scope (owner must be a class). */
     final def entered(implicit ctx: Context): this.type = {
-      assert(this.owner.isClass, s"symbol ($this) entered the scope of non-class owner ${this.owner}") // !!! DEBUG
+      assert(this.owner.isClass, i"symbol ($this) entered the scope of non-class owner ${this.owner}") // !!! DEBUG
       this.owner.asClass.enter(this)
       if (this is Module) this.owner.asClass.enter(this.moduleClass)
       this

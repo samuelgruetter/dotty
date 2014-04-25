@@ -182,7 +182,7 @@ object Denotations {
         case MissingRef(ownerd, name) =>
           ctx.newStubSymbol(ownerd.symbol, name, source)
         case NoDenotation | _: NoQualifyingRef =>
-          throw new TypeError(s"None of the alternatives of $this satisfies required predicate")
+          throw new TypeError(i"None of the alternatives of $this satisfies required predicate")
         case denot =>
           denot.symbol
       }
@@ -379,7 +379,7 @@ object Denotations {
           try info.signature
           catch { // !!! DEBUG
             case ex: MatchError =>
-              println(s"cannot take signature of ${info.show}")
+              println(i"cannot take signature of $info")
               throw ex
           }
         case _ => Signature.NotAMethod
@@ -486,7 +486,7 @@ object Denotations {
      */
     private def bringForward()(implicit ctx: Context): SingleDenotation = this match {
       case denot: SymDenotation if ctx.stillValid(denot) =>
-        if (denot.exists) assert(ctx.runId > validFor.runId, s"denotation $denot invalid in run ${ctx.runId}. ValidFor: $validFor")
+        if (denot.exists) assert(ctx.runId > validFor.runId, i"denotation $denot invalid in run ${ctx.runId}. ValidFor: $validFor")
         var d: SingleDenotation = denot
         do {
           d.validFor = Period(ctx.period.runId, d.validFor.firstPhaseId, d.validFor.lastPhaseId)
@@ -529,7 +529,7 @@ object Denotations {
             cur = next
             cur
           } else {
-            //println(s"might need new denot for $cur, valid for ${cur.validFor} at $currentPeriod")
+            //println(i"might need new denot for $cur, valid for ${cur.validFor} at $currentPeriod")
             // not found, cur points to highest existing variant
             val nextTransformerId = ctx.nextDenotTransformerId(cur.validFor.lastPhaseId)
             if (currentPeriod.lastPhaseId <= nextTransformerId)
@@ -537,7 +537,7 @@ object Denotations {
             else {
               var startPid = nextTransformerId + 1
               val transformer = ctx.denotTransformers(nextTransformerId)
-              //println(s"transforming $this with $transformer")
+              //println(i"transforming $this with $transformer")
               next = transformer.transform(cur)(ctx.withPhase(transformer)).syncWithParents
               if (next eq cur)
                 startPid = cur.validFor.firstPhaseId
@@ -551,7 +551,7 @@ object Denotations {
                 cur = next
               }
               cur.validFor = Period(currentPeriod.runId, startPid, transformer.lastPhaseId)
-              //println(s"new denot: $cur, valid for ${cur.validFor}")
+              //println(i"new denot: $cur, valid for ${cur.validFor}")
             }
             cur.current // multiple transformations could be required
           }
@@ -560,10 +560,10 @@ object Denotations {
           // but to be defensive we check for infinite loop anyway
           var cnt = 0
           while (!(cur.validFor contains currentPeriod)) {
-            //println(s"searching: $cur at $currentPeriod, valid for ${cur.validFor}")
+            //println(i"searching: $cur at $currentPeriod, valid for ${cur.validFor}")
             cur = cur.nextInRun
             cnt += 1
-            assert(cnt <= MaxPossiblePhaseId, s"seems to be a loop in Denotations for $this, currentPeriod = $currentPeriod")
+            assert(cnt <= MaxPossiblePhaseId, i"seems to be a loop in Denotations for $this, currentPeriod = $currentPeriod")
           }
           cur
         }
@@ -578,7 +578,7 @@ object Denotations {
     protected def installAfter(phase: DenotTransformer)(implicit ctx: Context): Unit = {
       val targetId = phase.next.id
       assert(ctx.phaseId == targetId,
-        s"denotation update for $this called in phase ${ctx.phase}, expected was ${phase.next}")
+        i"denotation update for $this called in phase ${ctx.phase}, expected was ${phase.next}")
       val current = symbol.current
       this.nextInRun = current.nextInRun
       this.validFor = Period(ctx.runId, targetId, current.validFor.lastPhaseId)
@@ -597,10 +597,10 @@ object Denotations {
 
     def staleSymbolError(implicit ctx: Context) = {
       def ownerMsg = this match {
-        case denot: SymDenotation => s"in ${denot.owner}"
+        case denot: SymDenotation => i"in ${denot.owner}"
         case _ => ""
       }
-      def msg = s"stale symbol; $this#${symbol.id} $ownerMsg, defined in run ${myValidFor.runId}, is referred to in run ${ctx.runId}"
+      def msg = i"stale symbol; $this#${symbol.id} $ownerMsg, defined in run ${myValidFor.runId}, is referred to in run ${ctx.runId}"
       throw new StaleSymbol(msg)
     }
 

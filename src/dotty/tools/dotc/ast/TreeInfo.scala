@@ -420,7 +420,7 @@ trait TypedTreeInfo extends TreeInfo[Type] { self: Trees.Instance[Type] =>
    *  if no such path exists.
    *  Pre: `sym` must have a position.
    */
-  def defPath(sym: Symbol, root: Tree)(implicit ctx: Context): List[Tree] = ctx.debugTraceIndented(s"defpath($sym with position ${sym.pos}, ${root.show})") {
+  def defPath(sym: Symbol, root: Tree)(implicit ctx: Context): List[Tree] = ctx.debugTraceIndented(i"defpath($sym with position ${sym.pos}, ${root.show})") {
     require(sym.pos.exists)
     object accum extends TreeAccumulator[List[Tree]] {
       def apply(x: List[Tree], tree: Tree): List[Tree] = {

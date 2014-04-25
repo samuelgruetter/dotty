@@ -59,9 +59,9 @@ object desugar {
           case tp: NamedType if tp.symbol.owner eq originalOwner =>
             val defctx = ctx.outersIterator.dropWhile(_.scope eq ctx.scope).next
             var local = defctx.denotNamed(tp.name).suchThat(_ is ParamOrAccessor).symbol
-            typr.println(s"rewiring ${tp.symbol} from ${originalOwner.showLocated} to ${local.showLocated}, current owner = ${ctx.owner.showLocated}")
+            typr.println(i"rewiring ${tp.symbol} from ${originalOwner.showLocated} to ${local.showLocated}, current owner = ${ctx.owner.showLocated}")
             if (local.exists) (defctx.owner.thisType select local).dealias
-            else throw new Error(s"no matching symbol for ${sym.showLocated} in ${defctx.owner} / ${defctx.effectiveScope}")
+            else throw new Error(i"no matching symbol for ${sym.showLocated} in ${defctx.owner} / ${defctx.effectiveScope}")
           case _ =>
             mapOver(tp)
         }

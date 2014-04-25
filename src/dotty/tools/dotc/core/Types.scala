@@ -401,7 +401,7 @@ object Types {
       case ex: MergeError =>
         throw new MergeError(s"${ex.getMessage} as members of type ${pre.show}")
       case ex: Throwable =>
-        println(s"error occurred during: $this: ${this.widen} member $name")
+        println(i"error occurred during: $this: ${this.widen} member $name")
         throw ex // DEBUG
     }
 

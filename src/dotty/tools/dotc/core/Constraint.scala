@@ -2,7 +2,7 @@ package dotty.tools
 package dotc
 package core
 
-import Types._, Contexts._, Symbols._
+import Types._, Contexts._, Symbols._, Decorators._
 import util.SimpleMap
 import collection.mutable
 import printing.{Printer, Showable}
@@ -85,8 +85,8 @@ class Constraint(val myMap: SimpleMap[PolyType, Array[Type]]) extends Showable {
       val param = PolyParam(pt, i)
       entry match {
         case TypeBounds(lo, hi) =>
-          assert(!param.occursIn(lo, fromBelow = true), s"$param occurs below $lo")
-          assert(!param.occursIn(hi, fromBelow = false), s"$param occurs above $hi")
+          assert(!param.occursIn(lo, fromBelow = true), i"$param occurs below $lo")
+          assert(!param.occursIn(hi, fromBelow = false), i"$param occurs above $hi")
         case _ =>
       }
     }
@@ -305,5 +305,5 @@ trait ConstraintRunInfo { self: RunInfo =>
       maxConstraint = c
     }
   def printMaxConstraint()(implicit ctx: Context) =
-    if (maxSize > 0) typr.println(s"max constraint = ${maxConstraint.show}")
+    if (maxSize > 0) typr.println(i"max constraint = $maxConstraint")
 }

@@ -114,8 +114,8 @@ class TypeApplications(val self: Type) extends AnyVal {
     def recur(tp: Type, tparams: List[TypeSymbol], args: List[Type]): Type = args match {
       case arg :: args1 =>
         if (tparams.isEmpty) {
-          println(s"applied type mismatch: $self $args, typeParams = $typeParams, tsym = ${self.typeSymbol.debugString}") // !!! DEBUG
-          println(s"precomplete decls = ${self.typeSymbol.decls.toList.map(_.denot).mkString("\n  ")}")
+          println(i"applied type mismatch: $self $args, typeParams = $typeParams, tsym = ${self.typeSymbol.debugString}") // !!! DEBUG
+          println(i"precomplete decls = ${self.typeSymbol.decls.toList.map(_.denot).mkString("\n  ")}")
         }
         val tparam = tparams.head
         val tp1 = RefinedType(tp, tparam.name, arg.toBounds(tparam))
@@ -203,7 +203,7 @@ class TypeApplications(val self: Type) extends AnyVal {
    *  the parent type which furthermore is not a name-mangled type parameter.
    *  Existential types in arguments are returned as TypeBounds instances.
    */
-  final def baseTypeWithArgs(base: Symbol)(implicit ctx: Context): Type = ctx.traceIndented(s"btwa ${self.show} wrt $base", core, show = true) {
+  final def baseTypeWithArgs(base: Symbol)(implicit ctx: Context): Type = ctx.traceIndented(i"btwa ${self.show} wrt $base", core, show = true) {
     def default = self.baseTypeRef(base).appliedTo(baseArgInfos(base))
     self match {
       case tp: TypeRef =>
@@ -355,7 +355,7 @@ class TypeApplications(val self: Type) extends AnyVal {
             case Some(name) =>
               TypeRef(RefinedThis(rt), name)
             case None =>
-              error(s"parameter $sym of type alias does not appear as type argument of the aliased $cls", sym.pos)
+              error(i"parameter $sym of type alias does not appear as type argument of the aliased $cls", sym.pos)
               defn.AnyType
           }
         }
