@@ -1,0 +1,253 @@
+../scala/src/library/scala/collection/IterableView.scala:25: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = TraversableView[_, C] forSome {type C <: Traversable[_]}
+                                    ^
+../scala/src/library/scala/collection/IterableViewLike.scala:76: error: early definitions are not supported; use trait parameters instead
+  protected def newZipped[B](that: GenIterable[B]): Transformed[(A, B)] = new { val other = that } with AbstractTransformed[(A, B)] with Zipped[B]
+                                                                                                   ^
+../scala/src/library/scala/collection/IterableViewLike.scala:81: error: early definitions are not supported; use trait parameters instead
+  } with AbstractTransformed[(A1, B)] with ZippedAll[A1, B]
+    ^
+../scala/src/library/scala/collection/IterableViewLike.scala:82: error: early definitions are not supported; use trait parameters instead
+  protected override def newForced[B](xs: => GenSeq[B]): Transformed[B] = new { val forced = xs } with AbstractTransformed[B] with Forced[B]
+                                                                                                  ^
+../scala/src/library/scala/collection/IterableViewLike.scala:83: error: early definitions are not supported; use trait parameters instead
+  protected override def newAppended[B >: A](that: GenTraversable[B]): Transformed[B] = new { val rest = that } with AbstractTransformed[B] with Appended[B]
+                                                                                                                ^
+../scala/src/library/scala/collection/IterableViewLike.scala:84: error: early definitions are not supported; use trait parameters instead
+  protected override def newMapped[B](f: A => B): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with Mapped[B]
+                                                                                           ^
+../scala/src/library/scala/collection/IterableViewLike.scala:85: error: early definitions are not supported; use trait parameters instead
+  protected override def newFlatMapped[B](f: A => GenTraversableOnce[B]): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with FlatMapped[B]
+                                                                                                                   ^
+../scala/src/library/scala/collection/IterableViewLike.scala:86: error: early definitions are not supported; use trait parameters instead
+  protected override def newFiltered(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with Filtered
+                                                                                             ^
+../scala/src/library/scala/collection/IterableViewLike.scala:87: error: early definitions are not supported; use trait parameters instead
+  protected override def newSliced(_endpoints: SliceInterval): Transformed[A] = new { val endpoints = _endpoints } with AbstractTransformed[A] with Sliced
+                                                                                                                   ^
+../scala/src/library/scala/collection/IterableViewLike.scala:88: error: early definitions are not supported; use trait parameters instead
+  protected override def newDroppedWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with DroppedWhile
+                                                                                                 ^
+../scala/src/library/scala/collection/IterableViewLike.scala:89: error: early definitions are not supported; use trait parameters instead
+  protected override def newTakenWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with TakenWhile
+                                                                                               ^
+../scala/src/library/scala/collection/SeqView.scala:25: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = TraversableView[_, C] forSome {type C <: Traversable[_]}
+                                    ^
+../scala/src/library/scala/collection/TraversableView.scala:30: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = TraversableView[_, C] forSome {type C <: Traversable[_]}
+                                    ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:172: error: early definitions are not supported; use trait parameters instead
+  protected def newForced[B](xs: => GenSeq[B]): Transformed[B] = new { val forced = xs } with AbstractTransformed[B] with Forced[B]
+                                                                                         ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:173: error: early definitions are not supported; use trait parameters instead
+  protected def newAppended[B >: A](that: GenTraversable[B]): Transformed[B] = new { val rest = that } with AbstractTransformed[B] with Appended[B]
+                                                                                                       ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:174: error: early definitions are not supported; use trait parameters instead
+  protected def newMapped[B](f: A => B): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with Mapped[B]
+                                                                                  ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:175: error: early definitions are not supported; use trait parameters instead
+  protected def newFlatMapped[B](f: A => GenTraversableOnce[B]): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with FlatMapped[B]
+                                                                                                          ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:176: error: early definitions are not supported; use trait parameters instead
+  protected def newFiltered(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with Filtered
+                                                                                    ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:177: error: early definitions are not supported; use trait parameters instead
+  protected def newSliced(_endpoints: SliceInterval): Transformed[A] = new { val endpoints = _endpoints } with AbstractTransformed[A] with Sliced
+                                                                                                          ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:178: error: early definitions are not supported; use trait parameters instead
+  protected def newDroppedWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with DroppedWhile
+                                                                                        ^
+../scala/src/library/scala/collection/TraversableViewLike.scala:179: error: early definitions are not supported; use trait parameters instead
+  protected def newTakenWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with TakenWhile
+                                                                                      ^
+../scala/src/library/scala/collection/SeqViewLike.scala:76: error: early definitions are not supported; use trait parameters instead
+  protected override def newForced[B](xs: => GenSeq[B]): Transformed[B] = new { val forced = xs } with AbstractTransformed[B] with Forced[B]
+                                                                                                  ^
+../scala/src/library/scala/collection/SeqViewLike.scala:77: error: early definitions are not supported; use trait parameters instead
+  protected override def newAppended[B >: A](that: GenTraversable[B]): Transformed[B] = new { val rest = that } with AbstractTransformed[B] with Appended[B]
+                                                                                                                ^
+../scala/src/library/scala/collection/SeqViewLike.scala:78: error: early definitions are not supported; use trait parameters instead
+  protected override def newMapped[B](f: A => B): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with Mapped[B]
+                                                                                           ^
+../scala/src/library/scala/collection/SeqViewLike.scala:79: error: early definitions are not supported; use trait parameters instead
+  protected override def newFlatMapped[B](f: A => GenTraversableOnce[B]): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with FlatMapped[B]
+                                                                                                                   ^
+../scala/src/library/scala/collection/SeqViewLike.scala:80: error: early definitions are not supported; use trait parameters instead
+  protected override def newFiltered(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with Filtered
+                                                                                             ^
+../scala/src/library/scala/collection/SeqViewLike.scala:81: error: early definitions are not supported; use trait parameters instead
+  protected override def newSliced(_endpoints: SliceInterval): Transformed[A] = new { val endpoints = _endpoints } with AbstractTransformed[A] with Sliced
+                                                                                                                   ^
+../scala/src/library/scala/collection/SeqViewLike.scala:82: error: early definitions are not supported; use trait parameters instead
+  protected override def newDroppedWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with DroppedWhile
+                                                                                                 ^
+../scala/src/library/scala/collection/SeqViewLike.scala:83: error: early definitions are not supported; use trait parameters instead
+  protected override def newTakenWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with TakenWhile
+                                                                                               ^
+../scala/src/library/scala/collection/SeqViewLike.scala:84: error: early definitions are not supported; use trait parameters instead
+  protected override def newZipped[B](that: GenIterable[B]): Transformed[(A, B)] = new { val other = that } with AbstractTransformed[(A, B)] with Zipped[B]
+                                                                                                            ^
+../scala/src/library/scala/collection/SeqViewLike.scala:89: error: early definitions are not supported; use trait parameters instead
+  } with AbstractTransformed[(A1, B)] with ZippedAll[A1, B]
+    ^
+../scala/src/library/scala/collection/SeqViewLike.scala:95: error: early definitions are not supported; use trait parameters instead
+  } with AbstractTransformed[B] with Patched[B]
+    ^
+../scala/src/library/scala/collection/SeqViewLike.scala:96: error: early definitions are not supported; use trait parameters instead
+  protected def newPrepended[B >: A](elem: B): Transformed[B] = new { protected[this] val fst = elem } with AbstractTransformed[B] with Prepended[B]
+                                                                                                       ^
+../scala/src/library/scala/collection/mutable/BufferLike.scala:74: error: '=' expected but 'end of statement' found.
+  def length: Int
+^
+../scala/src/library/scala/collection/mutable/BufferLike.scala:87: error: '=' expected but 'end of statement' found.
+  def +=:(elem: A): this.type
+^
+../scala/src/library/scala/collection/mutable/BufferLike.scala:105: error: '=' expected but 'end of statement' found.
+  def remove(n: Int): A
+^
+../scala/src/library/scala/collection/mutable/SeqLike.scala:43: error: '=' expected but 'end of statement' found.
+  def transform(f: A => A): this.type = {
+^
+../scala/src/library/scala/collection/mutable/DefaultMapModel.scala:27: error: '=' expected but 'end of statement' found.
+  protected def entries: Iterator[Entry]
+^
+../scala/src/library/scala/collection/mutable/IndexedSeqLike.scala:54: error: '=' expected but 'end of statement' found.
+  override def view = new IndexedSeqView[A, Repr] {
+^
+../scala/src/library/scala/collection/mutable/IndexedSeqView.scala:79: error: early definitions are not supported; use trait parameters instead
+  protected override def newFiltered(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with Filtered
+                                                                                             ^
+../scala/src/library/scala/collection/mutable/IndexedSeqView.scala:80: error: early definitions are not supported; use trait parameters instead
+  protected override def newSliced(_endpoints: SliceInterval): Transformed[A] = new { val endpoints = _endpoints } with AbstractTransformed[A] with Sliced
+                                                                                                                   ^
+../scala/src/library/scala/collection/mutable/IndexedSeqView.scala:81: error: early definitions are not supported; use trait parameters instead
+  protected override def newDroppedWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with DroppedWhile
+                                                                                                 ^
+../scala/src/library/scala/collection/mutable/IndexedSeqView.scala:82: error: early definitions are not supported; use trait parameters instead
+  protected override def newTakenWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with TakenWhile
+                                                                                               ^
+../scala/src/library/scala/collection/mutable/IndexedSeqView.scala:108: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = TraversableView[_, C] forSome {type C <: Traversable[_]}
+                                    ^
+../scala/src/library/scala/collection/mutable/Builder.scala:43: error: '=' expected but 'end of statement' found.
+  def result(): To
+^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:53: error: early definitions are not supported; use trait parameters instead
+  protected override def newForced[B](xs: => scala.collection.GenSeq[B]): Transformed[B] = new { val forced = xs } with AbstractTransformed[B] with Forced[B]
+                                                                                                                   ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:54: error: early definitions are not supported; use trait parameters instead
+  protected override def newAppended[B >: A](that: scala.collection.GenTraversable[B]): Transformed[B] = new { val rest = that } with AbstractTransformed[B] with Appended[B]
+                                                                                                                                 ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:55: error: early definitions are not supported; use trait parameters instead
+  protected override def newMapped[B](f: A => B): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with Mapped[B]
+                                                                                           ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:56: error: early definitions are not supported; use trait parameters instead
+  protected override def newFlatMapped[B](f: A => scala.collection.GenTraversableOnce[B]): Transformed[B] = new { val mapping = f } with AbstractTransformed[B] with FlatMapped[B]
+                                                                                                                                    ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:57: error: early definitions are not supported; use trait parameters instead
+  protected override def newFiltered(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with Filtered
+                                                                                             ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:58: error: early definitions are not supported; use trait parameters instead
+  protected override def newSliced(_endpoints: SliceInterval): Transformed[A] = new { val endpoints = _endpoints } with AbstractTransformed[A] with Sliced
+                                                                                                                   ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:59: error: early definitions are not supported; use trait parameters instead
+  protected override def newDroppedWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with DroppedWhile
+                                                                                                 ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:60: error: early definitions are not supported; use trait parameters instead
+  protected override def newTakenWhile(p: A => Boolean): Transformed[A] = new { val pred = p } with AbstractTransformed[A] with TakenWhile
+                                                                                               ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:61: error: early definitions are not supported; use trait parameters instead
+  protected override def newZipped[B](that: scala.collection.GenIterable[B]): Transformed[(A, B)] = new { val other = that } with AbstractTransformed[(A, B)] with Zipped[B]
+                                                                                                                             ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:63: error: early definitions are not supported; use trait parameters instead
+    new { val other = that; val thisElem = _thisElem; val thatElem = _thatElem } with AbstractTransformed[(A1, B)] with ZippedAll[A1, B]
+                                                                                 ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:67: error: early definitions are not supported; use trait parameters instead
+    new { val from = _from; val patch = _patch; val replaced = _replaced } with AbstractTransformed[B] with Patched[B]
+                                                                           ^
+../scala/src/library/scala/collection/immutable/StreamViewLike.scala:69: error: early definitions are not supported; use trait parameters instead
+  protected override def newPrepended[B >: A](elem: B): Transformed[B] = new { protected[this] val fst = elem } with AbstractTransformed[B] with Prepended[B]
+                                                                                                                ^
+../scala/src/library/scala/collection/immutable/RedBlackTree.scala:89: error: identifier expected but '_' found.
+  def keysIterator[A, _](tree: Tree[A, _]): Iterator[A] = new KeysIterator(tree)
+                      ^
+../scala/src/library/scala/collection/immutable/RedBlackTree.scala:90: error: identifier expected but '_' found.
+  def valuesIterator[_, B](tree: Tree[_, B]): Iterator[B] = new ValuesIterator(tree)
+                     ^
+../scala/src/library/scala/collection/immutable/RedBlack.scala:42: error: '=' expected but 'end of statement' found.
+    def toStream: Stream[(A,B)]
+^
+../scala/src/library/scala/collection/immutable/TrieIterator.scala:67: error: early definitions are not supported; use trait parameters instead
+  } with TrieIterator[T](xs) {
+    ^
+../scala/src/library/scala/collection/generic/Signalling.scala:80: error: '=' expected but 'end of statement' found.
+  def setIndexFlagIfGreater(f: Int)
+^
+../scala/src/library/scala/collection/generic/Signalling.scala:89: error: '=' expected but 'end of statement' found.
+  def setIndexFlagIfLesser(f: Int)
+^
+../scala/src/library/scala/collection/generic/Signalling.scala:95: error: '=' expected but 'end of statement' found.
+  def tag: Int
+^
+../scala/src/library/scala/collection/parallel/ParSeqView.scala:39: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = ParSeqView[_, C, _] forSome { type C <: ParSeq[_] }
+                                  ^
+../scala/src/library/scala/collection/parallel/ParIterableView.scala:39: error: existential types no longer supported; use a wildcard type or dependent type instead
+  type Coll = ParIterableView[_, C, _] forSome { type C <: ParIterable[_] }
+                                       ^
+../scala/src/library/scala/collection/parallel/ParIterableViewLike.scala:147: error: early definitions are not supported; use trait parameters instead
+  protected def newSliced(_endpoints: SliceInterval): Transformed[T] = new { val endpoints = _endpoints } with Sliced
+                                                                                                          ^
+../scala/src/library/scala/collection/parallel/Tasks.scala:35: error: '=' expected but 'end of statement' found.
+  var result: R
+^
+../scala/src/library/scala/collection/parallel/Tasks.scala:115: error: '=' expected but 'end of statement' found.
+    def start()
+^
+../scala/src/library/scala/collection/parallel/Tasks.scala:117: error: '=' expected but 'end of statement' found.
+    def sync()
+^
+../scala/src/library/scala/collection/parallel/Tasks.scala:121: error: '=' expected but 'end of statement' found.
+    def tryCancel(): Boolean
+^
+../scala/src/library/scala/collection/parallel/ParSeqViewLike.scala:109: error: early definitions are not supported; use trait parameters instead
+  protected override def newSliced(_endpoints: SliceInterval): Transformed[T] = new { val endpoints = _endpoints } with Sliced
+                                                                                                                   ^
+../scala/src/library/scala/collection/parallel/ParSeqViewLike.scala:131: error: early definitions are not supported; use trait parameters instead
+  } with Patched[U]
+    ^
+../scala/src/library/scala/collection/parallel/mutable/ResizableParArrayCombiner.scala:90: error: early definitions are not supported; use trait parameters instead
+    new { val chain = c } with ResizableParArrayCombiner[T] // was: with EnvironmentPassingCombiner[T, ParArray[T]]
+                          ^
+../scala/src/library/scala/testing/Benchmark.scala:49: error: '=' expected but 'end of statement' found.
+  var multiplier = 1
+^
+../scala/src/library/scala/xml/Utility.scala:46: error: illegal start of simple pattern
+    case Elem(pre, lab, md, scp, child@_*) =>
+                                         ^
+../scala/src/library/scala/xml/Utility.scala:54: error: illegal start of simple pattern
+    case Elem(pre,lab,md,scp,child@_*) =>
+                                     ^
+../scala/src/library/scala/xml/Utility.scala:73: error: illegal start of simple pattern
+	case Elem(pre,lab,md,scp,child@_*) =>
+                                         ^
+../scala/src/library/scala/xml/dtd/ElementValidator.scala:102: error: illegal start of simple pattern
+    case MIXED(ContentModel.Alt(branches @ _*))  =>   // @todo
+                                             ^
+../scala/src/library/scala/xml/dtd/ContentModel.scala:39: error: illegal start of simple pattern
+      case Sequ( xs @ _* ) => Set(xs flatMap traverse: _*)
+                         ^
+../scala/src/library/scala/xml/dtd/ContentModel.scala:40: error: illegal start of simple pattern
+      case Alt(  xs @ _* ) => Set(xs flatMap traverse: _*)
+                         ^
+../scala/src/library/scala/xml/dtd/ContentModel.scala:68: error: illegal start of simple pattern
+      case Sequ(rs @ _*) =>
+                       ^
+../scala/src/library/scala/xml/dtd/ContentModel.scala:70: error: illegal start of simple pattern
+      case Alt(rs @ _*) =>
+                      ^
+../scala/src/library/scala/xml/dtd/ContentModel.scala:109: error: illegal start of simple pattern
+    val newAlt = r match { case Alt(rs @ _*) => Alt(rs drop 1: _*) }
+                                           ^
+
